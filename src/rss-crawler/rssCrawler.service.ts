@@ -1,0 +1,32 @@
+import { CrawlerService } from '../crawler/crawler.service';
+import { Url } from 'url';
+import { Injectable } from '@nestjs/common';
+import Parser = require('rss-parser');
+import { Output as Feed } from 'rss-parser';
+import { Article } from 'src/article/article.entity';
+import { Connection } from 'typeorm';
+
+@Injectable()
+export class RSSCrawlerService extends CrawlerService {
+  constructor(public name: string, public source: Url, private connection: Connection) {
+    super(name, source);
+  }
+  async getFeed() {
+    const rssParser = new Parser();
+    const feed: Feed = await rssParser.parseURL(this.source.href);
+
+    return feed;
+  }
+  async crawl() {
+    const feed = await this.getFeed();
+    for (const articleInFeed of feed.items) {
+      const article = new Article();
+      article.url = articleInFeed.link;
+      article.content = articleInFeed.content;
+      article.sourceUrl = feed.feedUrl;
+      article.title = articleInFeed.title;
+      article.time = new Date(articleInFeed.pubDate);
+      await this.connection.manager.save(article);
+    }
+  }
+}
