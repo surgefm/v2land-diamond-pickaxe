@@ -6,7 +6,7 @@ import {
   JoinTable,
   OneToMany,
 } from 'typeorm';
-import { Site } from './Site.entity';
+import { Site } from '../site/site.entity';
 /**
  * This is the article entity used across langchao.org
  */

@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
 } from 'typeorm';
-import { Article } from './Article.entity';
+import { Article } from '../article/article.entity';
 
 /**
  * This is the site entity used across langchao.org
