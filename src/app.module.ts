@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnqueueUrlController } from './enqueue-url/enqueue-url.controller';
 import { ArticleModule } from './article/article.module';
 import { SiteModule } from './site/site.module';
+import { FulltextExtractModule } from './fulltext-extract/fulltext-extract.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -19,7 +20,9 @@ import { SiteModule } from './site/site.module';
       autoLoadEntities: true,
     }),
     ArticleModule,
-    SiteModule,],
+    SiteModule,
+    FulltextExtractModule,
+  ],
   controllers: [AppController, EnqueueUrlController],
   providers: [AppService],
 })
