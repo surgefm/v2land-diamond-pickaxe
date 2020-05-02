@@ -1,13 +1,8 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Article } from '../article/article.entity';
 
 /**
- * This is the site entity used across langchao.org
+ * This is the news source site entity used across langchao.org
  */
 @Entity()
 export class Site {
@@ -20,6 +15,10 @@ export class Site {
   @Column()
   domains: string[];
 
-  @OneToMany(type => Article,article=>article.siteId)
+  @OneToMany(
+    type => Article,
+    article => article.siteId,
+    { cascade: true }
+  )
   articles: Article[];
 }
