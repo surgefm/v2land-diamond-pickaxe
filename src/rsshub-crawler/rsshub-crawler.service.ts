@@ -1,9 +1,9 @@
-import { RSSCrawlerService } from '../rss-crawler/rssCrawler.service';
-import { Url } from 'url';
 import { Injectable } from '@nestjs/common';
-import Parser = require('rss-parser');
+import * as Parser from 'rss-parser';
 import { Output as Feed } from 'rss-parser';
 import { Connection } from 'typeorm';
+import { Url } from 'url';
+import { RSSCrawlerService } from '../rss-crawler/rssCrawler.service';
 
 @Injectable()
 export class RSSHubCrawlerService extends RSSCrawlerService {
