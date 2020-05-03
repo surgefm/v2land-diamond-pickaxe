@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticleModule } from './article/article.module';
-import { EnqueueUrlController } from './enqueue-url/enqueue-url.controller';
+import { EnqueueUrlModule } from './enqueue-url/enqueue-url.module';
 import { FulltextExtractModule } from './fulltext-extract/fulltext-extract.module';
 import { SaveArticleModule } from './save-article/save-article.module';
 import { SiteModule } from './site/site.module';
@@ -34,8 +34,9 @@ import { SiteModule } from './site/site.module';
     SiteModule,
     FulltextExtractModule,
     SaveArticleModule,
+    EnqueueUrlModule,
   ],
-  controllers: [AppController, EnqueueUrlController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

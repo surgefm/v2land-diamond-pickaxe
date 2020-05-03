@@ -39,6 +39,9 @@ export class Article {
   @Column({ default: 'pending' })
   status: string;
 
+  @Column()
+  author: string;
+
   @OneToMany(
     () => Site,
     siteId => siteId.articles
