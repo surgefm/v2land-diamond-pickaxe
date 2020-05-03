@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
-import { Article } from 'src/article/article.entity';
 import * as Mercury from 'postlight__mercury-parser';
+import { CreateArticleDto } from 'src/article/dto/create-article.dto';
+import { Url } from 'url';
 
 @Module({})
 export class FulltextExtractModule {
-  async extract(url: URL) {
+  async extract(url: Url) {
     await this.mercuryExtract(url);
   }
-  async mercuryExtract(url: URL) {
+  async mercuryExtract(url: Url) {
     const parsed = await Mercury.parse(url.href);
-    const article = new Article();
+    const article = new CreateArticleDto();
+    article.url = parsed.url;
     article.content = parsed.content;
-    article.url=url.href;
+    article.title = parsed.title;
+    article.time = new Date(parsed.date_published);
   }
 }
