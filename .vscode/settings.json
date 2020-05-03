@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "prettier.packageManager": "yarn",
+    "javascript.suggest.completeFunctionCalls": true,
+    "typescript.suggest.completeFunctionCalls": true,
+    "npm.packageManager": "yarn",
+    "eslint.packageManager": "yarn",
+    "javascript.preferences.importModuleSpecifier": "relative"
+}
