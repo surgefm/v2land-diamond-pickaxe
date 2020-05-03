@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { SaveArticleProcessor } from './save-article.processor';
 import { BullModule } from '@nestjs/bull';
+import { Module } from '@nestjs/common';
 import { ArticleModule } from 'src/article/article.module';
+import { SaveArticleProcessor } from './save-article.processor';
 import { SaveArticleService } from './save-article.service';
 
 @Module({
@@ -12,5 +12,6 @@ import { SaveArticleService } from './save-article.service';
     ArticleModule,
   ],
   providers: [SaveArticleProcessor, SaveArticleService],
+  exports: [SaveArticleService],
 })
 export class SaveArticleModule {}

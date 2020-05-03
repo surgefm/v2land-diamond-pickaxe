@@ -8,6 +8,7 @@ import { EnqueueUrlModule } from './enqueue-url/enqueue-url.module';
 import { FulltextExtractModule } from './fulltext-extract/fulltext-extract.module';
 import { SaveArticleModule } from './save-article/save-article.module';
 import { SiteModule } from './site/site.module';
+import { RSSCrawlerModule } from './rss-crawler/rss-crawler.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -35,6 +36,7 @@ import { SiteModule } from './site/site.module';
     FulltextExtractModule,
     SaveArticleModule,
     EnqueueUrlModule,
+    RSSCrawlerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

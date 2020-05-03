@@ -1,8 +1,8 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
+import * as Mercury from '@postlight/mercury-parser';
 import { Job } from 'bull';
 import * as puppeteer from 'puppeteer';
-import * as Mercury from '@postlight/mercury-parser';
 import { Article } from 'src/article/article.entity';
 
 @Processor('save-article')
@@ -28,9 +28,15 @@ export class SaveArticleProcessor {
     this.logger.debug('Start parsing page...');
 
     let article: Article = job.data;
-    let parsed = Mercury.parse(article.url, { html: article.html });
+    let parsed = await Mercury.parse(article.url, { html: article.html });
+    article.title = parsed.title;
+    article.content = parsed.content;
+    article.author = parsed.author;
+    article.time = new Date(parsed.date_published);
+
+    // TODO: Screenshot
 
     this.logger.debug('Parsing completed');
-    return parsed;
+    return article;
   }
 }
