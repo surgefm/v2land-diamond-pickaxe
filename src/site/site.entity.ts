@@ -15,8 +15,14 @@ export class Site {
   @Column()
   domains: string[];
 
+  @Column()
+  needParseFulltext: boolean;
+
+  @Column()
+  dynamicLoading: boolean;
+
   @OneToMany(
-    type => Article,
+    () => Article,
     article => article.siteId,
     { cascade: true }
   )
