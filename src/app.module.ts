@@ -9,6 +9,7 @@ import { FulltextExtractModule } from './fulltext-extract/fulltext-extract.modul
 import { SaveArticleModule } from './save-article/save-article.module';
 import { SiteModule } from './site/site.module';
 import { RSSCrawlerModule } from './rss-crawler/rss-crawler.module';
+import { AbstractGenerationModule } from './abstract-generation/abstract-generation.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -37,6 +38,7 @@ import { RSSCrawlerModule } from './rss-crawler/rss-crawler.module';
     SaveArticleModule,
     EnqueueUrlModule,
     RSSCrawlerModule,
+    AbstractGenerationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

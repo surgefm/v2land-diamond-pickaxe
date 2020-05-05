@@ -29,6 +29,7 @@
     "@postlight/mercury-parser": "^2.2.0",
     "bull": "^3.13.0",
     "class-validator": "^0.12.2",
+    "html-to-text": "^5.1.1",
     "mysql": "^2.18.1",
     "pg": "^8.0.3",
     "reflect-metadata": "^0.1.13",
