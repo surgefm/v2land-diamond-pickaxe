@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Site } from '../site/site.entity';
 
 /**
@@ -42,7 +42,7 @@ export class Article {
   @Column()
   author: string;
 
-  @OneToMany(
+  @ManyToOne(
     () => Site,
     siteId => siteId.articles
   )
