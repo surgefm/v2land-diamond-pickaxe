@@ -25,6 +25,7 @@
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/schedule": "^0.3.1",
     "@nestjs/typeorm": "^7.0.0",
     "@postlight/mercury-parser": "^2.2.0",
     "bull": "^3.13.0",
