@@ -1,32 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import * as Parser from 'rss-parser';
-import { Output as Feed } from 'rss-parser';
+import Parser, { Output as Feed } from 'rss-parser';
+import { AbstractGenerationService } from 'src/abstract-generation/abstract-generation.service';
+import { Article } from 'src/article/article.entity';
 import { ArticleService } from 'src/article/article.service';
 import { CreateArticleDto } from 'src/article/dto/create-article.dto';
 import { EnqueueUrlService } from 'src/enqueue-url/enqueue-url';
-import { FindOneSiteDto } from 'src/site/dto/find-one-site.dto';
-import { Site } from 'src/site/site.entity';
 import { SiteService } from 'src/site/site.service';
-import { Connection } from 'typeorm';
 import { parse as parseUrl, Url } from 'url';
 import { CrawlerService } from '../crawler/crawler.service';
-import { Article } from 'src/article/article.entity';
 
 @Injectable()
 export class RSSCrawlerService extends CrawlerService {
-  site: Promise<Site>;
   constructor(
     public name: string,
     public source: Url,
-    private connection: Connection,
     private readonly enqueueUrlService: EnqueueUrlService,
-    private readonly articleService: ArticleService
+    private readonly articleService: ArticleService,
+    private readonly abstractGenerationService: AbstractGenerationService,
+    siteService: SiteService
   ) {
-    super(name, source);
-    const findOneSiteDto = new FindOneSiteDto();
-    findOneSiteDto.name = name;
-    const siteService = new SiteService(connection.getRepository(Site));
-    this.site = siteService.findOne(findOneSiteDto);
+    super(name, source, siteService);
   }
   async getFeed() {
     const rssParser = new Parser();
@@ -34,33 +27,43 @@ export class RSSCrawlerService extends CrawlerService {
 
     return feed;
   }
-  async crawl() {
+
+  async getArticleCandidateList(): Promise<CreateArticleDto[]> {
     //   Get feed object
     const feed = await this.getFeed();
-
     // Generate article DTO array
-    const sourceSite = new FindOneSiteDto();
-    sourceSite.name = feed.title;
-    const site = await this.site;
-    let articles: Article[] = [];
+    const site = await this.sitePromise;
+    let articles: CreateArticleDto[] = [];
     for (const articleInFeed of feed.items) {
       const article = new Article();
       article.url = articleInFeed.link;
-      article.content = articleInFeed.content;
-      article.siteId = site;
+      article.content = site.shouldParseFulltext ? null : articleInFeed.content;
+      article.site = site;
       article.title = articleInFeed.title;
       article.time = new Date(articleInFeed.pubDate);
-      articles.push(article);
+      article.abstract = site.shouldParseFulltext
+        ? articleInFeed.content
+        : this.abstractGenerationService.generateAbstract(
+            articleInFeed.content
+          );
     }
+    return articles;
+  }
+
+  async crawl() {
+    const site = await this.sitePromise;
+    const articles = await this.getArticleCandidateList();
 
     // Enqueue for fulltext extraction
-    if (site.needParseFulltext) {
+    if (site.shouldParseFulltext) {
+      // Extract fulltext
       for (const article of articles) {
         this.enqueueUrlService.enqueue(parseUrl(article.url));
       }
     } else {
+      // Directly save into database
       for (const article of articles) {
-        await this.articleService.create(article);
+        this.articleService.create(article);
       }
     }
   }
