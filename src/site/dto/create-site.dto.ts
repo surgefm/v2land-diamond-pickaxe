@@ -4,5 +4,5 @@ export class CreateSiteDto {
   name: string;
   url: Url;
   dynamicLoading: boolean;
-  parseFulltext:boolean;
+  parseFulltext: boolean;
 }

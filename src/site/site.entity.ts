@@ -3,6 +3,7 @@ import { Article } from '../article/article.entity';
 
 /**
  * This is the news source site entity used across langchao.org
+ * Each Site bounds to a specific rule describing the necessary pre-processing before a new article of that site is added
  */
 @Entity()
 export class Site {
