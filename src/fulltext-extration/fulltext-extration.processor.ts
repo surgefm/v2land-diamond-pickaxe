@@ -5,18 +5,18 @@ import { Job } from 'bull';
 import * as puppeteer from 'puppeteer';
 import { Article } from 'src/article/article.entity';
 
-@Processor('save-article')
-export class SaveArticleProcessor {
-  private readonly logger = new Logger(SaveArticleProcessor.name);
+@Processor('fulltext-extration')
+export class FulltextExtrationProcessor {
+  private readonly logger = new Logger(FulltextExtrationProcessor.name);
 
   @Process('archive-dynamic-page')
-  async archiveDynamicPage(job: Job) {
+  async archiveDynamicPage(job: Job): Promise<string> {
     this.logger.debug('Start archiving...');
-
+    // TODO: pooling puppeteer instead of launching every time
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(job.data);
-    const content = await page.content;
+    const content = page.content();
 
     await browser.close();
 
@@ -33,8 +33,10 @@ export class SaveArticleProcessor {
     article.content = parsed.content;
     article.author = parsed.author;
     article.time = new Date(parsed.date_published);
+    article.abstract = parsed.excerpt;
 
     // TODO: Screenshot
+    // TODO: Wayback machine
 
     this.logger.debug('Parsing completed');
     return article;

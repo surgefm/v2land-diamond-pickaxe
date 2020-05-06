@@ -1,30 +1,33 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { Job, Queue } from 'bull';
-import { Article } from 'src/article/article.entity';
 import { ArticleService } from 'src/article/article.service';
+import { CreateArticleDto } from 'src/article/dto/create-article.dto';
 
 @Injectable()
-export class SaveArticleService {
+export class FulltextExtrationService {
   constructor(
-    @InjectQueue('save-article') private saveArticleQueue: Queue,
+    @InjectQueue('fulltext-extration') private saveArticleQueue: Queue,
     private readonly articleService: ArticleService
   ) {}
-  async save(article: Article) {
+  async save(candidateArticle: CreateArticleDto) {
     // The source doesn't provide fulltext
-    if (article.siteId.needParseFulltext) {
+    if (candidateArticle.site.shouldParseFulltext) {
       // Archive dynamic page
       let job: Job<string> = await this.saveArticleQueue.add(
         'archive-dynamic-page',
-        article.url
+        candidateArticle.url
       );
-      article.html = job.returnvalue;
+      candidateArticle.html = job.returnvalue;
     }
 
     // Parse Article
-    let job: Job<Article> = await this.saveArticleQueue.add('parse', article);
+    let job: Job<CreateArticleDto> = await this.saveArticleQueue.add(
+      'parse',
+      candidateArticle
+    );
 
-    let parsedArticle = await job.data;
+    let parsedArticle = job.data;
     this.articleService.create(parsedArticle);
   }
 }

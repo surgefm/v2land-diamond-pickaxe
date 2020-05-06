@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SaveArticleService } from './save-article.service';
+import { FulltextExtrationService } from './fulltext-extration.service';
 
 describe('SaveArticle', () => {
-  let provider: SaveArticleService;
+  let provider: FulltextExtrationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SaveArticleService],
+      providers: [FulltextExtrationService],
     }).compile();
 
-    provider = module.get<SaveArticleService>(SaveArticleService);
+    provider = module.get<FulltextExtrationService>(FulltextExtrationService);
   });
 
   it('should be defined', () => {

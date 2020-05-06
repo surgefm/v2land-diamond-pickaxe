@@ -1,15 +1,15 @@
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AbstractGenerationModule } from './abstract-generation/abstract-generation.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticleModule } from './article/article.module';
+import { CrawlerModule } from './crawler/crawler.module';
 import { EnqueueUrlModule } from './enqueue-url/enqueue-url.module';
-import { FulltextExtractModule } from './fulltext-extract/fulltext-extract.module';
-import { SaveArticleModule } from './save-article/save-article.module';
-import { SiteModule } from './site/site.module';
+import { FulltextExtrationModule } from './fulltext-extration/fulltext-extration.module';
 import { RSSCrawlerModule } from './rss-crawler/rss-crawler.module';
-import { AbstractGenerationModule } from './abstract-generation/abstract-generation.module';
+import { SiteModule } from './site/site.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -34,11 +34,11 @@ import { AbstractGenerationModule } from './abstract-generation/abstract-generat
     }),
     ArticleModule,
     SiteModule,
-    FulltextExtractModule,
-    SaveArticleModule,
+    FulltextExtrationModule,
     EnqueueUrlModule,
     RSSCrawlerModule,
     AbstractGenerationModule,
+    CrawlerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
