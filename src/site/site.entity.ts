@@ -40,7 +40,7 @@ export class Site {
 
   @OneToMany(
     () => Article,
-    article => article.siteId,
+    article => article.site,
     { cascade: true }
   )
   articles: Article[];

@@ -11,7 +11,7 @@ export class CreateArticleDto {
   html?: string;
   screenshot?: string;
   status: ArticleStatus;
-  siteId: Site;
+  site: Site;
 }
 export enum ArticleStatus {
   Pending = 'pending',

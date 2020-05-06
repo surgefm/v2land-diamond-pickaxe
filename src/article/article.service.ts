@@ -19,7 +19,7 @@ export class ArticleService {
     // article.html = createArticleDto.html;
     // article.status = createArticleDto.status;
     // article.screenshot = createArticleDto.screenshot;
-    // article.siteId = createArticleDto.siteId;
+      // article.site = createArticleDto.site;
 
     return this.articleRepository.save(article);
   }

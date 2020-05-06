@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Site } from '../site/site.entity';
 
 /**
@@ -44,7 +44,7 @@ export class Article {
 
   @ManyToOne(
     () => Site,
-    siteId => siteId.articles
+    site => site.articles
   )
-  siteId: Site;
+  site: Site; // will automatically suffix `Id` in database
 }
