@@ -6,7 +6,7 @@ import { EnqueueUrlService } from './enqueue-url';
 export class EnqueueUrlController {
   constructor(private enqueueUrlService: EnqueueUrlService) {}
   @Post()
-  async enqueue(@Body() enqueueUrlDto: EnqueueUrlDto) {
+  enqueue(@Body() enqueueUrlDto: EnqueueUrlDto) {
     this.enqueueUrlService.enqueue(enqueueUrlDto.url);
   }
 }

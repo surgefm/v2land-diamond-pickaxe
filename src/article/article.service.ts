@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from 'src/article/article.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
+import { CreateArticleDto } from './dto/create-article.dto';
 
 @Injectable()
 export class ArticleService {
@@ -9,30 +10,44 @@ export class ArticleService {
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>
   ) {}
+  /**
+   * Create one if not present in the database and return the reference.
+   * If there is already a record with the same url, it simply returns that record.
+   * @param article An object that stores all info to create an article
+   */
+  async create(createArticleDto: CreateArticleDto) {
+    const existingArticle = await this.articleRepository.find(createArticleDto);
 
-  async create(article: Article) {
-    // const article = new Article();
-    // article.url = createArticleDto.url;
-    // article.time = createArticleDto.time;
-    // article.title = createArticleDto.title;
-    // article.content = createArticleDto.content;
-    // article.html = createArticleDto.html;
-    // article.status = createArticleDto.status;
-    // article.screenshot = createArticleDto.screenshot;
-      // article.site = createArticleDto.site;
+    // Existing article found
+    if (existingArticle.length == 0) {
+      const article = new Article();
+      article.url = createArticleDto.url;
+      article.time = createArticleDto.time;
+      article.title = createArticleDto.title;
+      article.content = createArticleDto.content;
+      article.html = createArticleDto.html;
+      article.status = createArticleDto.status;
+      article.screenshot = createArticleDto.screenshot;
+      article.site = createArticleDto.site;
 
-    return this.articleRepository.save(article);
+      return this.articleRepository.save(article);
+      // Not found
+    } else if (existingArticle.length > 0) {
+      return existingArticle;
+    } else {
+      console.log('Error finding existing article');
+    }
   }
 
-  async findAll(): Promise<Article[]> {
-    return this.articleRepository.find();
+  async findAll(conditions: Article): Promise<Article[]> {
+    return await this.articleRepository.find(conditions);
   }
 
-  findOne(id: string): Promise<Article> {
-    return this.articleRepository.findOne(id);
+  async findOne(id: string): Promise<Article> {
+    return await this.articleRepository.findOne(id);
   }
 
-  async remove(id: string): Promise<void> {
-    await this.articleRepository.delete(id);
+  async remove(id: string): Promise<DeleteResult> {
+    return await this.articleRepository.delete(id);
   }
 }
