@@ -6,23 +6,14 @@ import { FindOneSiteDto } from './dto/find-one-site.dto';
 import { Site } from './site.entity';
 import { SiteService } from './site.service';
 
-const testSiteName = 'Apple 更换和维修扩展计划';
-const testSiteUrl = 'https://rsshub.app/apple/exchange_repair/zh-cn';
-const testSiteShouldExtractFulltext = true;
-const testSiteDynamicLoading = false;
+const testCreateSiteDto = {
+  name: 'Apple 更换和维修扩展计划',
+  url: 'https://rsshub.app/apple/exchange_repair/zh-cn',
+  shouldParseFulltext: true,
+  dynamicLoading: false,
+} as CreateSiteDto;
 const testSiteId = 123;
-const testCreateSiteDto = new CreateSiteDto();
-testCreateSiteDto.name = testSiteName;
-testCreateSiteDto.url = testSiteUrl;
-testCreateSiteDto.dynamicLoading = testSiteDynamicLoading;
-testCreateSiteDto.shouldParseFulltext = testSiteShouldExtractFulltext;
-const testSite1 = new Site(
-  testSiteName,
-  testSiteUrl,
-  testSiteShouldExtractFulltext,
-  testSiteDynamicLoading
-);
-testSite1.id = testSiteId;
+const testSite1 = { id: testSiteId, ...testCreateSiteDto } as Site;
 const testFindOneSiteDto: FindOneSiteDto = testCreateSiteDto;
 const siteArray = [
   testSite1,
