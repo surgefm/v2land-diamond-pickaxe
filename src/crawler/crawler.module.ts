@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RSSCrawlerService } from 'src/rss-crawler/rss-crawler.service';
+import { RSSCrawlerService } from '../rss-crawler/rss-crawler.service';
 import { CrawlerService } from './crawler.service';
 
 const crawlerServiceProviders = [

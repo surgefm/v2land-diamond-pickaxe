@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AbstractGenerationModule } from 'src/abstract-generation/abstract-generation.module';
-import { FulltextExtrationModule } from 'src/fulltext-extration/fulltext-extration.module';
+import { AbstractGenerationModule } from '../abstract-generation/abstract-generation.module';
+import { FulltextExtrationModule } from '../fulltext-extration/fulltext-extration.module';
 import { RSSCrawlerService } from './rss-crawler.service';
 
 @Module({

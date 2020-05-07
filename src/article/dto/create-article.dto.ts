@@ -1,4 +1,4 @@
-import { Site } from 'src/site/site.entity';
+import { Site } from '../../site/site.entity';
 
 export class CreateArticleDto {
   url: string;

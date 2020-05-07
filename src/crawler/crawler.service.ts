@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { FindOneSiteDto } from 'src/site/dto/find-one-site.dto';
-import { Site } from 'src/site/site.entity';
-import { SiteService } from 'src/site/site.service';
 import { Url } from 'url';
+import { FindOneSiteDto } from '../site/dto/find-one-site.dto';
+import { Site } from '../site/site.entity';
+import { SiteService } from '../site/site.service';
 
 @Injectable()
 export abstract class CrawlerService {

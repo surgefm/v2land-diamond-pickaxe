@@ -1,8 +1,8 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { Job, Queue } from 'bull';
-import { ArticleService } from 'src/article/article.service';
-import { CreateArticleDto } from 'src/article/dto/create-article.dto';
+import { ArticleService } from '../article/article.service';
+import { CreateArticleDto } from '../article/dto/create-article.dto';
 
 @Injectable()
 export class FulltextExtrationService {
