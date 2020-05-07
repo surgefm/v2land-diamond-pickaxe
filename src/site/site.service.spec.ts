@@ -25,6 +25,7 @@ const testSite1 = new Site(
 testSite1.id = testSiteId;
 const testFindOneSiteDto: FindOneSiteDto = testCreateSiteDto;
 const siteArray = [
+  testSite1,
   new Site(
     '联合国 安理会否决了决议',
     'https://rsshub.app/un/scveto',
@@ -33,8 +34,10 @@ const siteArray = [
   ),
   new Site('单向空间 单读', 'https://rsshub.app/owspace/read/0', true, false),
 ];
-siteArray[0].id = 0;
-siteArray[0].id = 1;
+// Assign id for each site
+for (let index = 0; index < siteArray.length; index++) {
+  siteArray[index].id = siteArray[index].id || index;
+}
 
 describe('SiteService', () => {
   let service: SiteService;
@@ -50,8 +53,9 @@ describe('SiteService', () => {
           // define all the methods that you use from the siteRepo
           // give proper return values as expected or mock implementations, your choice
           useValue: {
+            create: jest.fn().mockReturnValue(testSite1),
             save: jest.fn().mockReturnValue(testSite1),
-            find: jest.fn().mockResolvedValue(siteArray),
+            find: jest.fn().mockResolvedValue(siteArray.slice(0, 1)),
             findOneOrFail: jest.fn().mockResolvedValue(testSite1),
             delete: jest.fn().mockResolvedValue(true),
           },
@@ -116,7 +120,7 @@ describe('SiteService', () => {
         deleted: false,
         message: 'Bad Delete Method.',
       });
-      expect(repoSpy).toBeCalledWith(4);
+      expect(repoSpy).toBeCalledWith({ id: 4 });
       expect(repoSpy).toBeCalledTimes(1);
     });
   });

@@ -4,13 +4,6 @@ import { SiteController } from './site.controller';
 import { Site } from './site.entity';
 import { SiteService } from './site.service';
 
-export const mockRepository = jest.fn(() => ({
-  metadata: {
-    columns: [],
-    relations: [],
-  },
-}));
-
 @Module({
   imports: [TypeOrmModule.forFeature([Site])],
   providers: [SiteService],
