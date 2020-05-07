@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { EnqueueUrlDto } from 'src/enqueue-url/enqueue-url-dto.interface';
 import { EnqueueUrlService } from './enqueue-url';
+import { EnqueueUrlDto } from './enqueue-url.dto';
 
 @Controller('enqueue-url')
 export class EnqueueUrlController {

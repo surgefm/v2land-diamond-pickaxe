@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateArticleDto } from 'src/article/dto/create-article.dto';
-import { FulltextExtrationService } from 'src/fulltext-extration/fulltext-extration.service';
 import { Url } from 'url';
+import { CreateArticleDto } from '../article/dto/create-article.dto';
+import { FulltextExtrationService } from '../fulltext-extration/fulltext-extration.service';
 
 @Injectable()
 export class EnqueueUrlService {

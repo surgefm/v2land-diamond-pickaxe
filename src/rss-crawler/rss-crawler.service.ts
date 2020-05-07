@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import Parser, { Output as Feed } from 'rss-parser';
-import { AbstractGenerationService } from 'src/abstract-generation/abstract-generation.service';
-import { Article } from 'src/article/article.entity';
-import { ArticleService } from 'src/article/article.service';
-import { CreateArticleDto } from 'src/article/dto/create-article.dto';
-import { EnqueueUrlService } from 'src/enqueue-url/enqueue-url';
-import { SiteService } from 'src/site/site.service';
 import { parse as parseUrl, Url } from 'url';
+import { AbstractGenerationService } from '../abstract-generation/abstract-generation.service';
+import { Article } from '../article/article.entity';
+import { ArticleService } from '../article/article.service';
+import { CreateArticleDto } from '../article/dto/create-article.dto';
 import { CrawlerService } from '../crawler/crawler.service';
+import { EnqueueUrlService } from '../enqueue-url/enqueue-url';
+import { SiteService } from '../site/site.service';
 
 @Injectable()
 export class RSSCrawlerService extends CrawlerService {

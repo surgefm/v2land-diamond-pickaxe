@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 import * as Mercury from '@postlight/mercury-parser';
 import { Job } from 'bull';
 import * as puppeteer from 'puppeteer';
-import { Article } from 'src/article/article.entity';
+import { Article } from '../article/article.entity';
 
 @Processor('fulltext-extration')
 export class FulltextExtrationProcessor {
