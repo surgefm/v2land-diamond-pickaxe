@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateSiteDto } from './dto/create-site.dto';
 import { FindOneSiteDto } from './dto/find-one-site.dto';
 import { Site } from './site.entity';
 @Injectable()
@@ -8,21 +9,23 @@ export class SiteService {
   constructor(
     @InjectRepository(Site) private siteRepository: Repository<Site>
   ) {}
-  async create(site: Site) {
-    await this.siteRepository.save(site);
+  async create(candidateSite: CreateSiteDto): Promise<Site> {
+    const newSite = this.siteRepository.create(candidateSite);
+    await this.siteRepository.save(newSite);
+    return newSite;
   }
 
-  findAll(): Promise<Site[]> {
-    return this.siteRepository.find();
+  findAll(findOneSiteDto: FindOneSiteDto): Promise<Site[]> {
+    return this.siteRepository.find(findOneSiteDto);
   }
 
-  findOne(id: string): Promise<Site>;
+  findOne(id: number): Promise<Site>;
   findOne(conditions: FindOneSiteDto): Promise<Site>;
   findOne(conditions: any) {
-    return this.siteRepository.findOne(conditions);
+    return this.siteRepository.findOneOrFail(conditions);
   }
 
-  async remove(id: string): Promise<void> {
+  async deleteOne(id: number): Promise<void> {
     await this.siteRepository.delete(id);
   }
 }

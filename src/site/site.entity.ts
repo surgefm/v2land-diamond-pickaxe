@@ -45,4 +45,18 @@ export class Site {
     { cascade: true }
   )
   articles: Article[];
+
+  // TODO: @CreateDateColumn @UpdateDateColumn @VersionColumn
+
+  constructor(
+    name?: string,
+    url?: string,
+    shouldParseFulltext?: boolean,
+    dynamicLoading?: boolean
+  ) {
+    this.url = url || '';
+    this.name = name || '';
+    this.shouldParseFulltext = shouldParseFulltext || false;
+    this.dynamicLoading = dynamicLoading || false;
+  }
 }

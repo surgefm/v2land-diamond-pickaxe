@@ -1,8 +1,6 @@
-import { Url } from 'url';
-
 export class CreateSiteDto {
   name: string;
-  url: Url;
+  url: string;
   dynamicLoading: boolean;
-  parseFulltext: boolean;
+  shouldParseFulltext: boolean;
 }
