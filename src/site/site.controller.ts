@@ -7,7 +7,7 @@ export class SiteController {
   constructor(private readonly siteService: SiteService) {}
 
   @Post()
-  createSite(createSiteDto: CreateSiteDto) {
-    this.siteService.create(createSiteDto);
+  async createSite(createSiteDto: CreateSiteDto) {
+    return this.siteService.create(createSiteDto);
   }
 }

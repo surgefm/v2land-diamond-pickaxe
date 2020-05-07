@@ -25,7 +25,12 @@ export class SiteService {
     return this.siteRepository.findOneOrFail(conditions);
   }
 
-  async deleteOne(id: number): Promise<void> {
-    await this.siteRepository.delete(id);
+  async deleteOne(id: number): Promise<{ deleted: boolean; message?: string }> {
+    try {
+      await this.siteRepository.delete({ id });
+      return { deleted: true };
+    } catch (err) {
+      return { deleted: false, message: err.message };
+    }
   }
 }
