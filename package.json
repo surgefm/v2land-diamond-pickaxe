@@ -1,10 +1,11 @@
 {
   "name": "v2land-diamond-hoe-refreshed",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "钻石锄，浪潮新闻采集服务 News Crawling Service for V2Land 💎",
+  "author": "oppilate <oppilate@tutanota.com> (https://github.com/oppilate)",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "(MIT or GPL-3.0)",
+  "repository": "github:oppilate/v2land-diamond-hoe-refreshed",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -42,7 +43,7 @@
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
-    "@nestjs/testing": "^7.0.0",
+    "@nestjs/testing": "^7.0.9",
     "@types/bull": "^3.12.2",
     "@types/express": "^4.17.3",
     "@types/jest": "25.1.4",
