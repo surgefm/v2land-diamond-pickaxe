@@ -4,6 +4,7 @@ import { ArticleModule } from 'src/article/article.module';
 import { FulltextExtrationProcessor } from './fulltext-extration.processor';
 import { FulltextExtrationService } from './fulltext-extration.service';
 
+// TODO: Seperate dynamic page archiving and page parsing
 @Module({
   imports: [
     BullModule.registerQueue({
