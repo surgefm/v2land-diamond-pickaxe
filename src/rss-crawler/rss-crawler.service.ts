@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import Parser, { Output as Feed } from 'rss-parser';
-import { parse as parseUrl, Url } from 'url';
+import { Site } from 'src/site/site.entity';
+import { parse as parseUrl } from 'url';
 import { AbstractGenerationService } from '../abstract-generation/abstract-generation.service';
 import { Article } from '../article/article.entity';
 import { ArticleService } from '../article/article.service';
@@ -12,27 +13,25 @@ import { SiteService } from '../site/site.service';
 @Injectable()
 export class RSSCrawlerService extends CrawlerService {
   constructor(
-    public name: string,
-    public source: Url,
+    public site: Site,
     private readonly enqueueUrlService: EnqueueUrlService,
     private readonly articleService: ArticleService,
     private readonly abstractGenerationService: AbstractGenerationService,
     siteService: SiteService
   ) {
-    super(name, source, siteService);
+    super(siteService);
   }
-  async getFeed() {
+  async getFeed(site: Site) {
     const rssParser = new Parser();
-    const feed: Feed = await rssParser.parseURL(this.source.href);
+    const feed: Feed = await rssParser.parseURL(site.url);
 
     return feed;
   }
 
-  async getArticleCandidateList(): Promise<CreateArticleDto[]> {
+  async getArticleCandidateList(site: Site): Promise<CreateArticleDto[]> {
     //   Get feed object
-    const feed = await this.getFeed();
+    const feed = await this.getFeed(site);
     // Generate article DTO array
-    const site = await this.sitePromise;
     let articles: CreateArticleDto[] = [];
     for (const articleInFeed of feed.items) {
       const article = new Article();
@@ -50,9 +49,8 @@ export class RSSCrawlerService extends CrawlerService {
     return articles;
   }
 
-  async crawl() {
-    const site = await this.sitePromise;
-    const articles = await this.getArticleCandidateList();
+  async crawl(site: Site) {
+    const articles = await this.getArticleCandidateList(site);
 
     // Enqueue for fulltext extraction
     if (site.shouldParseFulltext) {
