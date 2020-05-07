@@ -20,7 +20,7 @@ import { SiteModule } from './site/site.module';
       username: 'root',
       password: 'root',
       database: 'test',
-      entities: [],
+      entities: ['dist/**/*.entity{ .ts,.js}'],
       synchronize: true,
       autoLoadEntities: true,
     }),
