@@ -13,7 +13,6 @@ export const mockRepository = jest.fn(() => ({
 
 @Module({
   imports: [TypeOrmModule.forFeature([Site])],
-  exports: [TypeOrmModule],
   providers: [SiteService],
   controllers: [SiteController],
 })
