@@ -1,15 +1,32 @@
+import { BullModule } from '@nestjs/bull';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AbstractGenerationModule } from 'src/abstract-generation/abstract-generation.module';
-import { FulltextExtrationModule } from 'src/fulltext-extration/fulltext-extration.module';
+import { ArticleModule } from '../article/article.module';
+import { EnqueueUrlModule } from '../enqueue-url/enqueue-url.module';
+import { SiteModule } from '../site/site.module';
+import { RSSCrawlerProcessor } from './rss-crawler.processor';
 import { RSSCrawlerService } from './rss-crawler.service';
 
 describe('RSSCrawlerService', () => {
   let service: RSSCrawlerService;
 
   beforeEach(async () => {
+    const fakeProcessor = jest.fn();
+
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RSSCrawlerService],
-      imports: [FulltextExtrationModule, AbstractGenerationModule],
+      providers: [RSSCrawlerService, RSSCrawlerProcessor],
+      imports: [
+        SiteModule,
+        EnqueueUrlModule,
+        ArticleModule,
+        BullModule.registerQueue({
+          name: 'crawler',
+          redis: {
+            host: '0.0.0.0',
+            port: 6379,
+          },
+          processors: [fakeProcessor],
+        }),
+      ],
     }).compile();
 
     service = module.get<RSSCrawlerService>(RSSCrawlerService);
@@ -17,28 +34,5 @@ describe('RSSCrawlerService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-    it('should have defined site', async () => {
-      expect(service.site).resolves.toEqual(expected);
-    });
-    expect(service.site).toBeDefined();
-  });
-
-  describe('getFeed', () => {
-    it('should insert a site', async () => {
-      expect(service.getFeed(testCreateSiteDto)).resolves.toEqual(testSite1);
-      expect(repo.create).toBeCalledTimes(1);
-      expect(repo.create).toBeCalledWith(testCreateSiteDto);
-      expect(repo.save).toBeCalledTimes(1);
-      expect(await service.create(testCreateSiteDto)).toBe(testSite1);
-    });
-  });
-  describe('getFeed', () => {
-    it('should insert a site', async () => {
-      expect(service.getFeed(testCreateSiteDto)).resolves.toEqual(testSite1);
-      expect(repo.create).toBeCalledTimes(1);
-      expect(repo.create).toBeCalledWith(testCreateSiteDto);
-      expect(repo.save).toBeCalledTimes(1);
-      expect(await service.create(testCreateSiteDto)).toBe(testSite1);
-    });
   });
 });

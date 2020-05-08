@@ -1,13 +1,17 @@
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
-import { FulltextExtrationModule } from '../fulltext-extration/fulltext-extration.module';
+import { ArticleModule } from '../article/article.module';
+import { EnqueueUrlModule } from '../enqueue-url/enqueue-url.module';
+import { SiteModule } from '../site/site.module';
 import { RSSCrawlerProcessor } from './rss-crawler.processor';
 import { RSSCrawlerService } from './rss-crawler.service';
 
 @Module({
   providers: [RSSCrawlerService, RSSCrawlerProcessor],
   imports: [
-    FulltextExtrationModule,
+    SiteModule,
+    EnqueueUrlModule,
+    ArticleModule,
     BullModule.registerQueue({
       name: 'crawler',
       redis: {
