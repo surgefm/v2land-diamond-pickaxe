@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { Article } from '../article/article.entity';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { FindArticleDto } from './dto/find-article.dto';
 
 @Injectable()
 export class ArticleService {
@@ -31,15 +32,19 @@ export class ArticleService {
     }
   }
 
-  async findAll(conditions: Article): Promise<Article[]> {
+  async findAll(conditions: FindArticleDto): Promise<Article[]> {
     return await this.articleRepository.find(conditions);
   }
-
-  async findOne(id: string): Promise<Article> {
-    return await this.articleRepository.findOne(id);
+  async findOne(id: number): Promise<Article>;
+  async findOne(conditions: FindArticleDto): Promise<Article>;
+  async findOne(conditions: number | FindArticleDto): Promise<Article> {
+    if (typeof conditions == 'number') {
+      return await this.articleRepository.findOneOrFail(conditions);
+    }
+    return await this.articleRepository.findOneOrFail(conditions);
   }
 
-  async remove(id: string): Promise<DeleteResult> {
+  async remove(id: number): Promise<DeleteResult> {
     return await this.articleRepository.delete(id);
   }
 }
