@@ -24,7 +24,7 @@ export class Site {
    * Domain site uses. Deprecated.
    */
   @Column()
-  domains: string[];
+  domains?: string[];
 
   /**
    * Whether articles in this site should go through fulltext extraction module

@@ -40,7 +40,7 @@ export class Article {
   status: string;
 
   @Column()
-  author: string;
+  author?: string;
 
   @ManyToOne(
     () => Site,
