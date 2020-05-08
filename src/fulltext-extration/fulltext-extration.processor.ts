@@ -2,7 +2,7 @@ import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import * as Mercury from '@postlight/mercury-parser';
 import { Job } from 'bull';
-import { CreateArticleDto } from 'src/article/dto/create-article.dto';
+import { CreateArticleDto } from '../article/dto/create-article.dto';
 
 @Processor('fulltext-extration')
 export class FulltextExtrationProcessor {

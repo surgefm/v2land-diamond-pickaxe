@@ -1,10 +1,10 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { Job, Queue } from 'bull';
-import { DynamicPageArchivingService } from 'src/dynamic-page-archiving/dynamic-page-archiving.service';
 import { parse as parseUrl } from 'url';
 import { ArticleService } from '../article/article.service';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
+import { DynamicPageArchivingService } from '../dynamic-page-archiving/dynamic-page-archiving.service';
 
 @Injectable()
 export class FulltextExtrationService {
