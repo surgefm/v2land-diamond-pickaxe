@@ -5,10 +5,10 @@ import { FulltextExtrationService } from '../fulltext-extration/fulltext-extrati
 
 @Injectable()
 export class EnqueueUrlService {
-  constructor(private saveArticleService: FulltextExtrationService) {}
+  constructor(private fulltextExtrationService: FulltextExtrationService) {}
   enqueue(url: Url) {
     let candidateArticle = new CreateArticleDto();
     candidateArticle.url = url.href;
-    this.saveArticleService.save(candidateArticle);
+    this.fulltextExtrationService.extractAndSave(candidateArticle);
   }
 }
