@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticleModule } from './article/article.module';
 import { CrawlerModule } from './crawler/crawler.module';
+import { DynamicPageArchivingModule } from './dynamic-page-archiving/dynamic-page-archiving.module';
 import { EnqueueUrlModule } from './enqueue-url/enqueue-url.module';
 import { FulltextExtrationModule } from './fulltext-extration/fulltext-extration.module';
 import { RSSCrawlerModule } from './rss-crawler/rss-crawler.module';
@@ -41,6 +42,7 @@ import { SiteModule } from './site/site.module';
     AbstractGenerationModule,
     CrawlerModule,
     ScheduleModule.forRoot(),
+    DynamicPageArchivingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
