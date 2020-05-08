@@ -33,4 +33,8 @@ export class SiteService {
       return { deleted: false, message: err.message };
     }
   }
+
+  async getAll(): Promise<Site[]> {
+    return this.siteRepository.find();
+  }
 }

@@ -3,7 +3,7 @@ import { AbstractGenerationModule } from 'src/abstract-generation/abstract-gener
 import { FulltextExtrationModule } from 'src/fulltext-extration/fulltext-extration.module';
 import { RSSCrawlerService } from './rss-crawler.service';
 
-describe('RSSCrawlerService', () => {
+describe('RSSCrawlerProcessor', () => {
   let service: RSSCrawlerService;
 
   beforeEach(async () => {
@@ -17,9 +17,6 @@ describe('RSSCrawlerService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-    it('should have defined site', async () => {
-      expect(service.site).resolves.toEqual(expected);
-    });
     expect(service.site).toBeDefined();
   });
 

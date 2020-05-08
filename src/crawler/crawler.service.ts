@@ -1,13 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Site } from 'src/site/site.entity';
+import { Queue } from 'bull';
 import { SiteService } from '../site/site.service';
 
 @Injectable()
 export abstract class CrawlerService {
   private readonly logger = new Logger(CrawlerService.name);
-  constructor(private readonly siteService: SiteService) {}
-  abstract async crawl(site: Site): Promise<void>;
+  constructor(
+    private readonly siteService: SiteService,
+    public crawlerQueue: Queue
+  ) {}
 
   // * * * * * *
   // | | | | | |
@@ -18,8 +20,11 @@ export abstract class CrawlerService {
   // | minute
   // second (optional)
   @Cron(CronExpression.EVERY_HOUR)
-  handleCron() {
+  async handleCron() {
     this.logger.debug('Crawler corn task started');
-    this.crawl();
+    const siteList = await this.siteService.getAll();
+    for (const site of siteList) {
+      this.crawlerQueue.add(site);
+    }
   }
 }

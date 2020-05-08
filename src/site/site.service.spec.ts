@@ -46,7 +46,7 @@ describe('SiteService', () => {
           useValue: {
             create: jest.fn().mockReturnValue(testSite1),
             save: jest.fn().mockReturnValue(testSite1),
-            find: jest.fn().mockResolvedValue(siteArray.slice(0, 1)),
+            find: jest.fn().mockResolvedValue(siteArray),
             findOneOrFail: jest.fn().mockResolvedValue(testSite1),
             delete: jest.fn().mockResolvedValue(true),
           },
@@ -113,6 +113,13 @@ describe('SiteService', () => {
       });
       expect(repoSpy).toBeCalledWith({ id: 4 });
       expect(repoSpy).toBeCalledTimes(1);
+    });
+  });
+
+  describe('getAll', () => {
+    it('should return an array of sites', async () => {
+      const cats = await service.getAll();
+      expect(cats).toEqual(siteArray);
     });
   });
 });
