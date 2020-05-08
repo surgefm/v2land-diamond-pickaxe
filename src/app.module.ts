@@ -2,7 +2,6 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AbstractGenerationModule } from './abstract-generation/abstract-generation.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticleModule } from './article/article.module';
@@ -39,7 +38,6 @@ import { SiteModule } from './site/site.module';
     FulltextExtrationModule,
     EnqueueUrlModule,
     RSSCrawlerModule,
-    AbstractGenerationModule,
     CrawlerModule,
     ScheduleModule.forRoot(),
     DynamicPageArchivingModule,
