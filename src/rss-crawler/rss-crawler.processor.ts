@@ -1,7 +1,6 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import Parser, { Output as Feed } from 'rss-parser';
-import { AbstractGenerationService } from 'src/abstract-generation/abstract-generation.service';
 import { Article } from 'src/article/article.entity';
 import { ArticleService } from 'src/article/article.service';
 import { CreateArticleDto } from 'src/article/dto/create-article.dto';
@@ -31,15 +30,14 @@ export class CrawlerProcessor {
     for (const articleInFeed of feed.items) {
       const article = new Article();
       article.url = articleInFeed.link;
-      article.content = site.shouldParseFulltext ? null : articleInFeed.content;
       article.site = site;
       article.title = articleInFeed.title;
       article.time = new Date(articleInFeed.pubDate);
-      article.abstract = site.shouldParseFulltext
-        ? articleInFeed.content
-        : this.abstractGenerationService.generateAbstract(
-            articleInFeed.content
-          );
+      if (feed.shouldParseFulltext) {
+        article.abstract = articleInFeed.content;
+      } else {
+        article.content = articleInFeed.content;
+      }
     }
     return articles;
   }

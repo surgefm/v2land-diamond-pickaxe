@@ -1,14 +1,13 @@
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
-import { AbstractGenerationModule } from '../abstract-generation/abstract-generation.module';
 import { FulltextExtrationModule } from '../fulltext-extration/fulltext-extration.module';
+import { RSSCrawlerProcessor } from './rss-crawler.processor';
 import { RSSCrawlerService } from './rss-crawler.service';
 
 @Module({
-  providers: [RSSCrawlerService],
+  providers: [RSSCrawlerService, RSSCrawlerProcessor],
   imports: [
     FulltextExtrationModule,
-    AbstractGenerationModule,
     BullModule.registerQueue({
       name: 'crawler',
       redis: {

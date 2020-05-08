@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AbstractGenerationModule } from 'src/abstract-generation/abstract-generation.module';
 import { FulltextExtrationModule } from 'src/fulltext-extration/fulltext-extration.module';
 import { RSSCrawlerService } from './rss-crawler.service';
 
@@ -9,7 +8,7 @@ describe('RSSCrawlerProcessor', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [RSSCrawlerService],
-      imports: [FulltextExtrationModule, AbstractGenerationModule],
+      imports: [FulltextExtrationModule],
     }).compile();
 
     service = module.get<RSSCrawlerService>(RSSCrawlerService);
