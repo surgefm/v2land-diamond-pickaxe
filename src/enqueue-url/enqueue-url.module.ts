@@ -7,5 +7,6 @@ import { EnqueueUrlController } from './enqueue-url.controller';
   controllers: [EnqueueUrlController],
   providers: [EnqueueUrlService],
   imports: [FulltextExtrationModule],
+  exports: [EnqueueUrlService],
 })
 export class EnqueueUrlModule {}
