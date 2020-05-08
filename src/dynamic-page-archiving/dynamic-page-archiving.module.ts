@@ -14,5 +14,6 @@ import { DynamicPageArchivingService } from './dynamic-page-archiving.service';
     }),
   ],
   providers: [DynamicPageArchivingProcessor, DynamicPageArchivingService],
+  exports: [DynamicPageArchivingService],
 })
 export class DynamicPageArchivingModule {}
