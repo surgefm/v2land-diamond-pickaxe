@@ -18,21 +18,13 @@ export class ArticleService {
   async create(createArticleDto: CreateArticleDto) {
     const existingArticle = await this.articleRepository.find(createArticleDto);
 
-    // Existing article found
     if (existingArticle.length == 0) {
-      const article = new Article();
-      article.url = createArticleDto.url;
-      article.time = createArticleDto.time;
-      article.title = createArticleDto.title;
-      article.content = createArticleDto.content;
-      article.html = createArticleDto.html;
-      article.status = createArticleDto.status;
-      article.screenshot = createArticleDto.screenshot;
-      article.site = createArticleDto.site;
-
-      return this.articleRepository.save(article);
-      // Not found
+      // Existing article not found
+      const newArticle = this.articleRepository.create(createArticleDto);
+      await this.articleRepository.save(newArticle);
+      return newArticle;
     } else if (existingArticle.length > 0) {
+      // Found
       return existingArticle;
     } else {
       console.log('Error finding existing article');
