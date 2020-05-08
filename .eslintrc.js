@@ -19,21 +19,21 @@ module.exports = {
     node: true,
     jest: true,
   },
-  rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/no-explicit-any': 0,
-    "@typescript-eslint/no-var-requires": 0,
-    "space-before-function-paren": "off",
-    "prefer-const": "off",
-    "require-jsdoc": ["error", {
-      "require": {
-        "FunctionDeclaration": false,
-        "MethodDefinition": false,
-        "ClassDeclaration": false,
-        "ArrowFunctionExpression": false,
-        "FunctionExpression": false
-      }
-    }],
-  },
+  // rules: {
+  //   '@typescript-eslint/interface-name-prefix': 'off',
+  //   '@typescript-eslint/explicit-function-return-type': 'off',
+  //   '@typescript-eslint/no-explicit-any': 0,
+  //   "@typescript-eslint/no-var-requires": 0,
+  //   "space-before-function-paren": "off",
+  //   "prefer-const": "off",
+  //   "require-jsdoc": ["error", {
+  //     "require": {
+  //       "FunctionDeclaration": false,
+  //       "MethodDefinition": false,
+  //       "ClassDeclaration": false,
+  //       "ArrowFunctionExpression": false,
+  //       "FunctionExpression": false
+  //     }
+  //   }],
+  // },
 };
