@@ -9,7 +9,9 @@ describe('DynamicPageArchivingService', () => {
       providers: [DynamicPageArchivingService],
     }).compile();
 
-    service = module.get<DynamicPageArchivingService>(DynamicPageArchivingService);
+    service = module.get<DynamicPageArchivingService>(
+      DynamicPageArchivingService
+    );
   });
 
   it('should be defined', () => {
