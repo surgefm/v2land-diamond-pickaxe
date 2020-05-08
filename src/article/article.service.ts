@@ -44,7 +44,11 @@ export class ArticleService {
     return await this.articleRepository.findOneOrFail(conditions);
   }
 
-  async remove(id: number): Promise<DeleteResult> {
+  async deleteOne(id: number): Promise<DeleteResult> {
     return await this.articleRepository.delete(id);
+  }
+
+  async getAll(): Promise<Article[]> {
+    return await this.articleRepository.find();
   }
 }
