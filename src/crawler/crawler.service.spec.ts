@@ -3,17 +3,17 @@
 // import { ArticleModule } from '../article/article.module';
 // import { EnqueueUrlModule } from '../enqueue-url/enqueue-url.module';
 // import { SiteModule } from '../site/site.module';
-// import { RSSCrawlerProcessor } from './rss-crawler.processor';
-// import { RSSCrawlerService } from './rss-crawler.service';
+// import { CrawlerProcessor } from './rss-crawler.processor';
+// import { CrawlerService } from './rss-crawler.service';
 
-// describe('RSSCrawlerService', () => {
-//   let service: RSSCrawlerService;
+// describe('CrawlerService', () => {
+//   let service: CrawlerService;
 
 //   beforeEach(async () => {
 //     const fakeProcessor = jest.fn();
 
 //     const module: TestingModule = await Test.createTestingModule({
-//       providers: [RSSCrawlerService, RSSCrawlerProcessor],
+//       providers: [CrawlerService, CrawlerProcessor],
 //       imports: [
 //         SiteModule,
 //         EnqueueUrlModule,
@@ -29,7 +29,7 @@
 //       ],
 //     }).compile();
 
-//     service = module.get<RSSCrawlerService>(RSSCrawlerService);
+//     service = module.get<CrawlerService>(CrawlerService);
 //   });
 
 //   it('should be defined', () => {

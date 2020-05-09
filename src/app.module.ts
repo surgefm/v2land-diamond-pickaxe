@@ -9,7 +9,6 @@ import { CrawlerModule } from './crawler/crawler.module';
 import { DynamicPageArchivingModule } from './dynamic-page-archiving/dynamic-page-archiving.module';
 import { EnqueueUrlModule } from './enqueue-url/enqueue-url.module';
 import { FulltextExtractionModule } from './fulltext-extraction/fulltext-extraction.module';
-import { RSSCrawlerModule } from './rss-crawler/rss-crawler.module';
 import { SiteModule } from './site/site.module';
 @Module({
   imports: [
@@ -37,7 +36,6 @@ import { SiteModule } from './site/site.module';
     SiteModule,
     FulltextExtractionModule,
     EnqueueUrlModule,
-    RSSCrawlerModule,
     CrawlerModule,
     ScheduleModule.forRoot(),
     DynamicPageArchivingModule,
