@@ -55,7 +55,7 @@ const articleArray = [
     },
     author: 'authorname',
   },
-];
+] as Article[];
 
 describe('ArticleService', () => {
   let service: ArticleService;
@@ -73,7 +73,15 @@ describe('ArticleService', () => {
           useValue: {
             create: jest.fn().mockReturnValue(testArticle1),
             save: jest.fn().mockReturnValue(testArticle1),
-            find: jest.fn().mockResolvedValue(articleArray),
+            find: jest
+              .fn()
+              .mockImplementation((conditions?: FindArticleDto): Article[] => {
+                if (conditions == undefined) {
+                  return articleArray;
+                } else {
+                  return [articleArray[0]];
+                }
+              }),
             findOneOrFail: jest.fn().mockResolvedValue(testArticle1),
             delete: jest.fn().mockResolvedValue(true),
           },
@@ -95,10 +103,7 @@ describe('ArticleService', () => {
       expect(service.create(testCreateArticleDto)).resolves.toEqual(
         testArticle1
       );
-      expect(repo.create).toBeCalledTimes(1);
-      expect(repo.create).toBeCalledWith(testCreateArticleDto);
-      expect(repo.save).toBeCalledTimes(1);
-      expect(await service.create(testCreateArticleDto)).toBe(testArticle1);
+      expect(repo.find).toBeCalledTimes(1);
     });
   });
 
@@ -151,8 +156,8 @@ describe('ArticleService', () => {
 
   describe('getAll', () => {
     it('should return an array of articles', async () => {
-      const cats = await service.getAll();
-      expect(cats).toEqual(articleArray);
+      const articles = await service.getAll();
+      expect(articles).toEqual(articleArray);
     });
   });
 });
