@@ -2,8 +2,8 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ArticleModule } from '../article/article.module';
 import { DynamicPageArchivingModule } from '../dynamic-page-archiving/dynamic-page-archiving.module';
-import { FulltextExtrationProcessor } from './fulltext-extration.processor';
-import { FulltextExtrationService } from './fulltext-extration.service';
+import { FulltextExtractionProcessor } from './fulltext-extraction.processor';
+import { FulltextExtractionService } from './fulltext-extraction.service';
 
 // TODO: Seperate dynamic page archiving and page parsing
 @Module({
@@ -14,7 +14,7 @@ import { FulltextExtrationService } from './fulltext-extration.service';
     ArticleModule,
     DynamicPageArchivingModule,
   ],
-  providers: [FulltextExtrationProcessor, FulltextExtrationService],
-  exports: [FulltextExtrationService],
+  providers: [FulltextExtractionProcessor, FulltextExtractionService],
+  exports: [FulltextExtractionService],
 })
-export class FulltextExtrationModule {}
+export class FulltextExtractionModule {}

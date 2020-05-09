@@ -8,7 +8,7 @@ import { ArticleModule } from './article/article.module';
 import { CrawlerModule } from './crawler/crawler.module';
 import { DynamicPageArchivingModule } from './dynamic-page-archiving/dynamic-page-archiving.module';
 import { EnqueueUrlModule } from './enqueue-url/enqueue-url.module';
-import { FulltextExtrationModule } from './fulltext-extration/fulltext-extration.module';
+import { FulltextExtractionModule } from './fulltext-extraction/fulltext-extraction.module';
 import { RSSCrawlerModule } from './rss-crawler/rss-crawler.module';
 import { SiteModule } from './site/site.module';
 @Module({
@@ -35,7 +35,7 @@ import { SiteModule } from './site/site.module';
     }),
     ArticleModule,
     SiteModule,
-    FulltextExtrationModule,
+    FulltextExtractionModule,
     EnqueueUrlModule,
     RSSCrawlerModule,
     CrawlerModule,

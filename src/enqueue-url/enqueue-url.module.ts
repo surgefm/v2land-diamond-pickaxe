@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { FulltextExtrationModule } from '../fulltext-extration/fulltext-extration.module';
+import { FulltextExtractionModule } from '../fulltext-extraction/fulltext-extraction.module';
 import { EnqueueUrlService } from './enqueue-url';
 import { EnqueueUrlController } from './enqueue-url.controller';
 
 @Module({
   controllers: [EnqueueUrlController],
   providers: [EnqueueUrlService],
-  imports: [FulltextExtrationModule],
+  imports: [FulltextExtractionModule],
   exports: [EnqueueUrlService],
 })
 export class EnqueueUrlModule {}
