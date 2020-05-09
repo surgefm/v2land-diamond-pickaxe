@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Article } from '../article/article.entity';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { FindArticleDto } from './dto/find-article.dto';
@@ -16,7 +16,7 @@ export class ArticleService {
    * If there is already a record with the same url, it simply returns that record.
    * @param article An object that stores all info to create an article
    */
-  async create(createArticleDto: CreateArticleDto) {
+  async create(createArticleDto: CreateArticleDto): Promise<Article> {
     const existingArticle = await this.articleRepository.find(createArticleDto);
 
     if (existingArticle.length == 0) {
@@ -26,12 +26,15 @@ export class ArticleService {
       return newArticle;
     } else if (existingArticle.length > 0) {
       // Found
-      return existingArticle;
+      return existingArticle[0];
     } else {
       console.log('Error finding existing article');
     }
   }
-
+  /**
+   * Find all articles that match the given conditions
+   * @param conditions The criteria the returned value should match
+   */
   async findAll(conditions: FindArticleDto): Promise<Article[]> {
     return await this.articleRepository.find(conditions);
   }
@@ -44,8 +47,13 @@ export class ArticleService {
     return await this.articleRepository.findOneOrFail(conditions);
   }
 
-  async deleteOne(id: number): Promise<DeleteResult> {
-    return await this.articleRepository.delete(id);
+  async deleteOne(id: number): Promise<{ deleted: boolean; message?: string }> {
+    try {
+      await this.articleRepository.delete({ id });
+      return { deleted: true };
+    } catch (err) {
+      return { deleted: false, message: err.message };
+    }
   }
 
   async getAll(): Promise<Article[]> {
