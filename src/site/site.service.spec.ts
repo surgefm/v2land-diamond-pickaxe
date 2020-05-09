@@ -17,18 +17,21 @@ const testSite1 = { id: testSiteId, ...testCreateSiteDto } as Site;
 const testFindOneSiteDto: FindOneSiteDto = testCreateSiteDto;
 const siteArray = [
   testSite1,
-  new Site(
-    '联合国 安理会否决了决议',
-    'https://rsshub.app/un/scveto',
-    true,
-    false
-  ),
-  new Site('单向空间 单读', 'https://rsshub.app/owspace/read/0', true, false),
-];
-// Assign id for each site
-for (let index = 0; index < siteArray.length; index++) {
-  siteArray[index].id = siteArray[index].id || index;
-}
+  {
+    id: 1,
+    name: 'Apple 更换和维修扩展计划',
+    url: 'http://static.userland.com/gems/backend/rssTwoExample2.xml',
+    shouldParseFulltext: true,
+    dynamicLoading: false,
+  },
+  {
+    id: 2,
+    name: 'Apple 更换和维修扩展计划',
+    url: 'http://static.userland.com/gems/backend/rssTwoExample2.xml',
+    shouldParseFulltext: true,
+    dynamicLoading: false,
+  },
+] as Site[];
 
 describe('SiteService', () => {
   let service: SiteService;
@@ -46,7 +49,15 @@ describe('SiteService', () => {
           useValue: {
             create: jest.fn().mockReturnValue(testSite1),
             save: jest.fn().mockReturnValue(testSite1),
-            find: jest.fn().mockResolvedValue(siteArray),
+            find: jest.fn().mockImplementation(
+              (conditions?: FindOneSiteDto): Promise<Site[]> => {
+                if (conditions == undefined) {
+                  return Promise.resolve(siteArray);
+                } else {
+                  return Promise.resolve([siteArray[0]]);
+                }
+              }
+            ),
             findOneOrFail: jest.fn().mockResolvedValue(testSite1),
             delete: jest.fn().mockResolvedValue(true),
           },
@@ -69,7 +80,6 @@ describe('SiteService', () => {
       expect(repo.create).toBeCalledTimes(1);
       expect(repo.create).toBeCalledWith(testCreateSiteDto);
       expect(repo.save).toBeCalledTimes(1);
-      expect(await service.create(testCreateSiteDto)).toBe(testSite1);
     });
   });
 
@@ -118,8 +128,8 @@ describe('SiteService', () => {
 
   describe('getAll', () => {
     it('should return an array of sites', async () => {
-      const cats = await service.getAll();
-      expect(cats).toEqual(siteArray);
+      const sites = await service.getAll();
+      expect(sites).toEqual(siteArray);
     });
   });
 });
