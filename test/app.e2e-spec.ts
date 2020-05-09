@@ -15,10 +15,25 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/enqueue-url (POST)', () => {
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .post('/enqueue-url')
+      .send({
+        url:
+          'https://theinitium.com/article/20200505-mainland-coronavirus-liwenliang-weibo-wailing-wall/',
+      })
+      .expect(201);
+  });
+
+  it('/site (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/site')
+      .send({
+        name: '端传媒',
+        url: 'http://feeds.initium.news/theinitium',
+        dynamicLoading: true,
+        shouldParseFulltext: true,
+      })
+      .expect(201);
   });
 });
