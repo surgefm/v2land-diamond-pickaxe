@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Job, Queue } from 'bull';
 import { Url } from 'url';
 /**
- * Archiving job producer. Should revoke this in other modules.
+ * Job producer of snapshoting dynamic pages. Should revoke this in other modules.
  */
 @Injectable()
 export class DynamicPageArchivingService {

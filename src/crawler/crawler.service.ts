@@ -19,7 +19,7 @@ export abstract class CrawlerService {
    */
   @Cron(CronExpression.EVERY_HOUR)
   async handleCron() {
-    this.logger.debug('Crawler corn task started');
+    this.logger.debug('Corn task of Crawler started');
     const siteList = await this.siteService.getAll();
     for (const site of siteList) {
       this.crawlerQueue.add(site);
