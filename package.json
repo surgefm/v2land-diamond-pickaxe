@@ -24,12 +24,14 @@
   "dependencies": {
     "@nestjs/bull": "^0.1.1",
     "@nestjs/common": "^7.0.0",
+    "@nestjs/config": "^0.4.1",
     "@nestjs/core": "^7.0.0",
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/schedule": "^0.3.1",
     "@nestjs/typeorm": "^7.0.0",
     "@postlight/mercury-parser": "^2.2.0",
     "bull": "^3.13.0",
+    "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "html-to-text": "^5.1.1",
     "mysql": "^2.18.1",
@@ -66,12 +68,14 @@
     "prettier": "^1.19.1",
     "prettier-eslint": "^9.0.1",
     "prettier-plugin-organize-imports": "^1.0.3",
+    "start-server-webpack-plugin": "^2.2.5",
     "supertest": "^4.0.2",
     "ts-jest": "25.2.1",
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "webpack-node-externals": "^1.7.2"
   },
   "jest": {
     "moduleFileExtensions": [
