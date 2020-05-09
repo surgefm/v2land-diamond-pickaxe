@@ -12,6 +12,8 @@ export class EnqueueUrlController {
    */
   @Post()
   enqueue(@Body() enqueueUrlDto: EnqueueUrlDto) {
+    console.log('enqueueUrlDto.url' + enqueueUrlDto.url);
+
     // TODO: No check to ensure the uniqueness of articles yet
     this.enqueueUrlService.enqueue(enqueueUrlDto.url);
   }
