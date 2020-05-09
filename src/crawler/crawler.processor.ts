@@ -9,7 +9,7 @@ import { EnqueueUrlService } from '../enqueue-url/enqueue-url';
 import { Site } from '../site/site.entity';
 
 @Processor('crawler')
-export class RSSCrawlerProcessor {
+export class CrawlerProcessor {
   constructor(
     private readonly enqueueUrlService: EnqueueUrlService,
     private readonly articleService: ArticleService

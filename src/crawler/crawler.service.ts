@@ -1,17 +1,18 @@
+import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Queue } from 'bull';
 import { SiteService } from '../site/site.service';
 
 /**
- * Manages the crawler queue and scheduler. All sites and articles share one queue.
+ * Crawler working with RSS sources. Should never be directly revoked.
  */
 @Injectable()
-export abstract class CrawlerService {
+export class CrawlerService {
   private readonly logger = new Logger(CrawlerService.name);
   constructor(
     private readonly siteService: SiteService,
-    public crawlerQueue: Queue
+    @InjectQueue('crawler') private crawlerQueue: Queue
   ) {}
 
   /**
