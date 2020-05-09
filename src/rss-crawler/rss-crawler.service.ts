@@ -4,6 +4,9 @@ import { Queue } from 'bull';
 import { CrawlerService } from '../crawler/crawler.service';
 import { SiteService } from '../site/site.service';
 
+/**
+ * Crawler working with RSS sources. Should never be directly revoked.
+ */
 @Injectable()
 export class RSSCrawlerService extends CrawlerService {
   constructor(

@@ -6,6 +6,10 @@ import { SiteService } from './site.service';
 export class SiteController {
   constructor(private readonly siteService: SiteService) {}
 
+  /**
+   * Create a site record
+   * @param createSiteDto known info of the site
+   */
   @Post()
   async createSite(createSiteDto: CreateSiteDto) {
     return this.siteService.create(createSiteDto);
