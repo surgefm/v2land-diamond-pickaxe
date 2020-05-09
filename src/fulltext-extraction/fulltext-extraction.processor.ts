@@ -5,8 +5,8 @@ import { Job } from 'bull';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
 
 @Processor('fulltext-extration')
-export class FulltextExtrationProcessor {
-  private readonly logger = new Logger(FulltextExtrationProcessor.name);
+export class FulltextExtractionProcessor {
+  private readonly logger = new Logger(FulltextExtractionProcessor.name);
 
   @Process()
   async parsePage(job: Job): Promise<CreateArticleDto> {

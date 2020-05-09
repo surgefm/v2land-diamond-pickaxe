@@ -7,9 +7,9 @@ import { CreateArticleDto } from '../article/dto/create-article.dto';
 import { DynamicPageArchivingService } from '../dynamic-page-archiving/dynamic-page-archiving.service';
 
 @Injectable()
-export class FulltextExtrationService {
+export class FulltextExtractionService {
   constructor(
-    @InjectQueue('fulltext-extration') private fulltextExtrationQueue: Queue,
+    @InjectQueue('fulltext-extration') private fulltextExtractionQueue: Queue,
     private readonly articleService: ArticleService,
     private readonly dynamicPageArchivingService: DynamicPageArchivingService
   ) {}
@@ -22,7 +22,7 @@ export class FulltextExtrationService {
     }
 
     // Parse Article
-    let job: Job<CreateArticleDto> = await this.fulltextExtrationQueue.add(
+    let job: Job<CreateArticleDto> = await this.fulltextExtractionQueue.add(
       'parse',
       candidateArticle
     );
