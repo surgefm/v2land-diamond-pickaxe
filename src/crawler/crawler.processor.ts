@@ -1,7 +1,6 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import Parser, { Output as Feed } from 'rss-parser';
-import { parse as parseUrl } from 'url';
 import { Article } from '../article/article.entity';
 import { ArticleService } from '../article/article.service';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
@@ -58,7 +57,7 @@ export class CrawlerProcessor {
     if (site.shouldParseFulltext) {
       // Extract fulltext
       for (const article of articles) {
-        this.enqueueUrlService.enqueue(parseUrl(article.url));
+        this.enqueueUrlService.enqueue(article.url);
       }
     } else {
       // Directly save into database
