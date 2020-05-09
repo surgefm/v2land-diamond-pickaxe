@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FulltextExtrationService } from './fulltext-extration.service';
 
-describe('SaveArticle', () => {
+describe('FulltextExtration', () => {
   let provider: FulltextExtrationService;
 
   beforeEach(async () => {
