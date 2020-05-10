@@ -8,10 +8,6 @@ import { DynamicPageArchivingService } from './dynamic-page-archiving.service';
   imports: [
     BullModule.registerQueue({
       name: 'dynamic-page-archiving',
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
     }),
     FulltextExtractionModule,
   ],

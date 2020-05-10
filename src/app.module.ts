@@ -1,5 +1,7 @@
+import Joi from '@hapi/joi';
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -12,38 +14,54 @@ import { FulltextExtractionModule } from './fulltext-extraction/fulltext-extract
 import { SiteModule } from './site/site.module';
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'root',
-      database: 'test',
-      entities: ['dist/**/*.entity{ .ts,.js}'],
-      synchronize: true,
-      keepConnectionAlive: true,
-      autoLoadEntities: true,
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('DB_HOST'),
+        port: configService.get<number>('DB_PORT'),
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_DATABASE'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true,
+        keepConnectionAlive: true,
+        autoLoadEntities: true,
+      }),
     }),
-    BullModule.registerQueue({
-      name: 'crawler',
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+    BullModule.registerQueueAsync({
+      inject: [ConfigService],
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        name: 'crawler',
+        redis: {
+          host: configService.get<string>('REDIS_HOST'),
+          port: configService.get<number>('REDIS_PORT'),
+        },
+      }),
     }),
-    BullModule.registerQueue({
-      name: 'fulltext-extraction',
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+    BullModule.registerQueueAsync({
+      inject: [ConfigService],
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        name: 'fulltext-extraction',
+        redis: {
+          host: configService.get<string>('REDIS_HOST'),
+          port: configService.get<number>('REDIS_PORT'),
+        },
+      }),
     }),
-    BullModule.registerQueue({
-      name: 'dynamic-page-archiving',
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+    BullModule.registerQueueAsync({
+      inject: [ConfigService],
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        name: 'dynamic-page-archiving',
+        redis: {
+          host: configService.get<string>('REDIS_HOST'),
+          port: configService.get<number>('REDIS_PORT'),
+        },
+      }),
     }),
     ArticleModule,
     SiteModule,
@@ -52,6 +70,25 @@ import { SiteModule } from './site/site.module';
     CrawlerModule,
     ScheduleModule.forRoot(),
     DynamicPageArchivingModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        CRAWLER_INTERVAL: Joi.number().default(3600),
+        NODE_ENV: Joi.string()
+          .valid('development', 'production', 'test', 'provision')
+          .default('development'),
+        PORT: Joi.number().default(3000),
+        REDIS_PORT: Joi.number().default(6379),
+        REDIS_HOST: Joi.string().default('localhost'),
+        DB_PORT: Joi.number().default(5432),
+        DB_HOST: Joi.string().default('localhost'),
+        DB_DATABASE: Joi.string().default('v2land'),
+        DB_USERNAME: Joi.string()
+          .valid('postgres', 'cockroachdb')
+          .default('postgres'),
+        DB_PASSWORD: Joi.string().default('password'),
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
