@@ -1,11 +1,13 @@
-import { IsFQDN, IsUrl } from 'class-validator';
+import { IsFQDN, IsOptional, IsUrl } from 'class-validator';
 
 export class CreateSiteDto {
   name?: string;
 
+  @IsOptional()
   @IsUrl()
   url?: string;
 
+  @IsOptional()
   @IsFQDN({}, { each: true })
   domains?: string[];
 

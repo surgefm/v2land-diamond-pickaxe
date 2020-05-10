@@ -18,14 +18,17 @@ export class CrawlerService {
   /**
    * Periodically add all recorded sites to the crawler queue.
    */
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_10_SECONDS)
   async handleCron() {
     this.logger.debug('Corn task of Crawler started');
     const siteList = await this.siteService.getAll();
     for (const site of siteList) {
       // Only updates those subscribed
-      if (site.url != undefined) {
-        this.crawlerQueue.add(site);
+      if (site.url !== null && site.url !== undefined && site.url !== '') {
+        this.logger.debug(
+          `${site.name}:${site.url} ${typeof site.url} is enqueued`
+        );
+        await this.crawlerQueue.add(site);
       }
     }
   }

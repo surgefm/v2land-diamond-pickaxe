@@ -19,6 +19,6 @@ export class DynamicPageArchivingService {
    */
   async archiveParseSave(candidateArticle: CreateArticleDto): Promise<void> {
     // Archive dynamic page
-    this.dynamicPageArchivingQueue.add(candidateArticle);
+    await this.dynamicPageArchivingQueue.add(candidateArticle);
   }
 }

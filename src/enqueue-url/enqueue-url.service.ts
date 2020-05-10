@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { fromUrl, parseDomain, ParseResultType } from 'parse-domain';
 import { DynamicPageArchivingService } from 'src/dynamic-page-archiving/dynamic-page-archiving.service';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
@@ -7,6 +7,7 @@ import { SiteService } from '../site/site.service';
 
 @Injectable()
 export class EnqueueUrlService {
+  private readonly logger = new Logger(EnqueueUrlService.name);
   constructor(
     private fulltextExtractionService: FulltextExtractionService,
     private dynamicPageArchivingService: DynamicPageArchivingService,
@@ -15,6 +16,8 @@ export class EnqueueUrlService {
   async enqueue(url: string) {
     let candidateArticle = new CreateArticleDto();
     candidateArticle.url = url;
+
+    this.logger.debug(`Article enqueued: ${url}`);
 
     // Identify which site it belongs to
     let site = await this.siteService.getSiteOf(url);

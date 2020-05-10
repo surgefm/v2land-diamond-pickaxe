@@ -1,9 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Logger, Post } from '@nestjs/common';
 import { EnqueueUrlDto } from './enqueue-url.dto';
 import { EnqueueUrlService } from './enqueue-url.service';
 
 @Controller('enqueue-url')
 export class EnqueueUrlController {
+  private readonly logger = new Logger(EnqueueUrlController.name);
   constructor(private enqueueUrlService: EnqueueUrlService) {}
 
   /**
@@ -12,7 +13,7 @@ export class EnqueueUrlController {
    */
   @Post()
   async enqueue(@Body() enqueueUrlDto: EnqueueUrlDto) {
-    console.log('enqueueUrlDto.url' + enqueueUrlDto.url);
+    this.logger.debug('enqueueUrlDto.url' + enqueueUrlDto.url);
 
     // TODO: No check to ensure the uniqueness of articles yet
     await this.enqueueUrlService.enqueue(enqueueUrlDto.url);
