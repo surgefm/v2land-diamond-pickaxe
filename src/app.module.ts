@@ -10,6 +10,7 @@ import { ArticleModule } from './article/article.module';
 import { CrawlerModule } from './crawler/crawler.module';
 import { DynamicPageArchivingModule } from './dynamic-page-archiving/dynamic-page-archiving.module';
 import { EnqueueUrlModule } from './enqueue-url/enqueue-url.module';
+import { FollowRedirectModule } from './follow-redirect/follow-redirect.module';
 import { FulltextExtractionModule } from './fulltext-extraction/fulltext-extraction.module';
 import { SiteModule } from './site/site.module';
 @Module({
@@ -63,6 +64,17 @@ import { SiteModule } from './site/site.module';
         },
       }),
     }),
+    BullModule.registerQueueAsync({
+      inject: [ConfigService],
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        name: 'follow-redirect',
+        redis: {
+          host: configService.get<string>('REDIS_HOST'),
+          port: configService.get<number>('REDIS_PORT'),
+        },
+      }),
+    }),
     ArticleModule,
     SiteModule,
     FulltextExtractionModule,
@@ -73,7 +85,7 @@ import { SiteModule } from './site/site.module';
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
-        CRAWLER_INTERVAL: Joi.number().default(3600),
+        CRAWLER_INTERVAL: Joi.number().default(360000),
         NODE_ENV: Joi.string()
           .valid('development', 'production', 'test', 'provision')
           .default('development'),
@@ -89,6 +101,7 @@ import { SiteModule } from './site/site.module';
         DB_PASSWORD: Joi.string().default('password'),
       }),
     }),
+    FollowRedirectModule,
   ],
   controllers: [AppController],
   providers: [AppService],
