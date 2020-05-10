@@ -1,11 +1,13 @@
-import { Process, Processor } from '@nestjs/bull';
+import { OnQueueCompleted, Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import * as Mercury from '@postlight/mercury-parser';
 import { Job } from 'bull';
+import { ArticleService } from 'src/article/article.service';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
 
-@Processor('fulltext-extration')
+@Processor('fulltext-extraction')
 export class FulltextExtractionProcessor {
+  constructor(private readonly articleService: ArticleService) {}
   private readonly logger = new Logger(FulltextExtractionProcessor.name);
 
   @Process()
@@ -24,5 +26,10 @@ export class FulltextExtractionProcessor {
 
     this.logger.debug('Parsing completed');
     return article;
+  }
+
+  @OnQueueCompleted()
+  async onCompleted(_: number, parsedArticle: CreateArticleDto) {
+    this.articleService.create(parsedArticle);
   }
 }

@@ -16,21 +16,34 @@ import { SiteModule } from './site/site.module';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'root',
+      username: 'postgres',
       password: 'root',
       database: 'test',
       entities: ['dist/**/*.entity{ .ts,.js}'],
       synchronize: true,
+      keepConnectionAlive: true,
       autoLoadEntities: true,
     }),
-    BullModule.registerQueueAsync({
-      name: 'puppeteer-pool',
-      useFactory: () => ({
-        redis: {
-          host: 'localhost',
-          port: 6379,
-        },
-      }),
+    BullModule.registerQueue({
+      name: 'crawler',
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'fulltext-extraction',
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'dynamic-page-archiving',
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
     }),
     ArticleModule,
     SiteModule,

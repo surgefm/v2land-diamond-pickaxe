@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { CreateSiteDto } from './dto/create-site.dto';
 import { SiteService } from './site.service';
 
@@ -11,7 +11,7 @@ export class SiteController {
    * @param createSiteDto known info of the site
    */
   @Post()
-  async createSite(createSiteDto: CreateSiteDto) {
+  async createSite(@Body() createSiteDto: CreateSiteDto) {
     return this.siteService.create(createSiteDto);
   }
 }

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FulltextExtractionModule } from '../fulltext-extraction/fulltext-extraction.module';
-import { EnqueueUrlService } from './enqueue-url';
 import { EnqueueUrlController } from './enqueue-url.controller';
+import { EnqueueUrlService } from './enqueue-url.service';
 
 describe('EnqueueUrlService', () => {
   let provider: EnqueueUrlService;

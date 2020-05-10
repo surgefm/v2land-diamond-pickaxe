@@ -4,7 +4,7 @@ import Parser, { Output as Feed } from 'rss-parser';
 import { Article } from '../article/article.entity';
 import { ArticleService } from '../article/article.service';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
-import { EnqueueUrlService } from '../enqueue-url/enqueue-url';
+import { EnqueueUrlService } from '../enqueue-url/enqueue-url.service';
 import { Site } from '../site/site.entity';
 
 @Processor('crawler')

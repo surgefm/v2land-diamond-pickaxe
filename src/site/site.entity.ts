@@ -21,22 +21,22 @@ export class Site {
   name: string;
 
   /**
-   * Domain site uses. Deprecated.
+   * Domain site uses.
    */
-  @Column()
+  @Column('text', { array: true })
   domains?: string[];
 
   /**
    * Whether articles in this site should go through fulltext extraction module
    */
-  @Column()
+  @Column({ default: true })
   shouldParseFulltext: boolean;
 
   /**
    * Whether articles are dynamically loaded.
    * If so, they should be passed through puppeteer to get loaded HTML before enter fulltext extraction module
    */
-  @Column()
+  @Column({ default: false })
   dynamicLoading: boolean;
 
   @OneToMany(

@@ -23,7 +23,10 @@ export class CrawlerService {
     this.logger.debug('Corn task of Crawler started');
     const siteList = await this.siteService.getAll();
     for (const site of siteList) {
-      this.crawlerQueue.add(site);
+      // Only updates those subscribed
+      if (site.url != undefined) {
+        this.crawlerQueue.add(site);
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
-import { Job, Queue } from 'bull';
+import { Queue } from 'bull';
+import { CreateArticleDto } from 'src/article/dto/create-article.dto';
 /**
  * Job producer of snapshoting dynamic pages. Should revoke this in other modules.
  */
@@ -13,11 +14,11 @@ export class DynamicPageArchivingService {
 
   /**
    * Loads and snapshots a dynamic loading page.
+   * Chained by fulltext extration and saving.
    * @param url url of the page to snapshot
    */
-  async archive(url: string): Promise<string> {
+  async archiveParseSave(candidateArticle: CreateArticleDto): Promise<void> {
     // Archive dynamic page
-    let job = (await this.dynamicPageArchivingQueue.add(url)) as Job<string>;
-    return job.returnvalue as string;
+    this.dynamicPageArchivingQueue.add(candidateArticle);
   }
 }
