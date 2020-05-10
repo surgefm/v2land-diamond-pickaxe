@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Article } from '../article/article.entity';
@@ -7,6 +7,7 @@ import { FindArticleDto } from './dto/find-article.dto';
 
 @Injectable()
 export class ArticleService {
+  private readonly logger = new Logger(ArticleService.name);
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>
@@ -28,7 +29,7 @@ export class ArticleService {
       // Found
       return existingArticle[0];
     } else {
-      console.log('Error finding existing article');
+      this.logger.error('Error finding existing article');
     }
   }
   /**

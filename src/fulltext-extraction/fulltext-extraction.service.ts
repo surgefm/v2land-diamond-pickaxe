@@ -10,6 +10,6 @@ export class FulltextExtractionService {
   ) {}
   async extractAndSave(candidateArticle: CreateArticleDto) {
     // Parse Article & save
-    this.fulltextExtractionQueue.add(candidateArticle);
+    await this.fulltextExtractionQueue.add(candidateArticle);
   }
 }

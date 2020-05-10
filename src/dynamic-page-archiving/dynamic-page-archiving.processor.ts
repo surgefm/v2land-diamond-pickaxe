@@ -29,7 +29,7 @@ export class DynamicPageArchivingProcessor {
     const page = await browser.newPage();
     await page.goto(candidateArticle.url, { waitUntil: 'networkidle2' });
     candidateArticle.content = await page.content();
-    console.log(candidateArticle.content);
+    this.logger.debug(`candidateArticle.content: ${candidateArticle.content}`);
 
     await browser.close();
 

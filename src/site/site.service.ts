@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   fromUrl,
@@ -16,6 +16,7 @@ import { Site } from './site.entity';
  */
 @Injectable()
 export class SiteService {
+  private readonly logger = new Logger(SiteService.name);
   constructor(
     @InjectRepository(Site) private siteRepository: Repository<Site>
   ) {}
@@ -41,7 +42,7 @@ export class SiteService {
         // TODO: error handling
       }
     } else {
-      console.log('!!!!!!!!!!!No domain is given!!!!!!!!!!');
+      this.logger.debug('!!!!!!!!!!!No domain is given!!!!!!!!!!');
 
       // If the candidateSite has no known domain
       // Alternatively set Second Level Domain of Site.url as default site name
