@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { EnqueueUrlService } from './enqueue-url';
 import { EnqueueUrlDto } from './enqueue-url.dto';
+import { EnqueueUrlService } from './enqueue-url.service';
 
 @Controller('enqueue-url')
 export class EnqueueUrlController {
@@ -11,10 +11,10 @@ export class EnqueueUrlController {
    * @param enqueueUrlDto url of the article
    */
   @Post()
-  enqueue(@Body() enqueueUrlDto: EnqueueUrlDto) {
+  async enqueue(@Body() enqueueUrlDto: EnqueueUrlDto) {
     console.log('enqueueUrlDto.url' + enqueueUrlDto.url);
 
     // TODO: No check to ensure the uniqueness of articles yet
-    this.enqueueUrlService.enqueue(enqueueUrlDto.url);
+    await this.enqueueUrlService.enqueue(enqueueUrlDto.url);
   }
 }

@@ -1,12 +1,15 @@
-import { IsUrl } from 'class-validator';
+import { IsFQDN, IsUrl } from 'class-validator';
 
 export class CreateSiteDto {
-  name: string;
+  name?: string;
 
   @IsUrl()
-  url: string;
+  url?: string;
 
-  dynamicLoading: boolean;
+  @IsFQDN({}, { each: true })
+  domains?: string[];
 
-  shouldParseFulltext: boolean;
+  dynamicLoading?: boolean;
+
+  shouldParseFulltext?: boolean;
 }

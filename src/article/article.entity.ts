@@ -12,34 +12,34 @@ export class Article {
   @Column()
   url: string;
 
-  @Column()
+  @Column({ nullable: true })
   title?: string;
 
-  @Column()
+  @Column({ nullable: true })
   content?: string;
 
-  @Column()
+  @Column({ nullable: true })
   abstract?: string;
 
-  @Column()
+  @Column({ nullable: true })
   source?: string;
 
-  @Column()
+  @Column({ nullable: true })
   sourceUrl?: string;
 
-  @Column()
+  @Column({ nullable: true })
   time?: Date;
 
-  @Column()
+  @Column({ nullable: true })
   html?: string;
 
-  @Column()
+  @Column({ nullable: true })
   screenshot?: string;
 
   @Column({ default: 'pending' })
   status: string;
 
-  @Column()
+  @Column({ nullable: true })
   author?: string;
 
   @ManyToOne(
