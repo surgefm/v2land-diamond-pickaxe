@@ -1,0 +1,61 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "NestJS E2E",
+            "type": "node",
+            "request": "launch",
+            "protocol": "inspector",
+            "timeout": 25000,
+            "port": 9229,
+            "runtimeArgs": [
+                "run",
+                "test:e2e"
+            ],
+            "sourceMaps": true,
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "yarn",
+            "windows": {
+                "runtimeExecutable": "yarn.cmd"
+            },
+            // "envFile": "${workspaceRoot}/.env",
+            "skipFiles": [
+                "${workspaceRoot}/node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ],
+            "console": "integratedTerminal",
+            "outputCapture": "std",
+            "autoAttachChildProcesses": true
+        },
+        {
+            "name": "NestJS Debug",
+            "type": "node",
+            "request": "launch",
+            "protocol": "inspector",
+            "timeout": 25000,
+            "port": 9229,
+            "runtimeArgs": [
+                "run",
+                "start:debug",
+            ],
+            "sourceMaps": true,
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "yarn",
+            // "envFile": "${workspaceRoot}/.env",
+            "skipFiles": [
+                "${workspaceRoot}/node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ],
+            "console": "integratedTerminal",
+            "outputCapture": "std",
+            
+            "outFiles": [
+                "${workspaseFolder}/dist/**/*.js"
+            ],
+            "autoAttachChildProcesses": true
+        },
+    ]
+}
