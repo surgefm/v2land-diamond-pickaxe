@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { DynamicPageArchivingModule } from 'src/dynamic-page-archiving/dynamic-page-archiving.module';
+import { DynamicPageArchivingModule } from '../dynamic-page-archiving/dynamic-page-archiving.module';
 import { FulltextExtractionModule } from '../fulltext-extraction/fulltext-extraction.module';
 import { SiteModule } from '../site/site.module';
 import { EnqueueUrlController } from './enqueue-url.controller';

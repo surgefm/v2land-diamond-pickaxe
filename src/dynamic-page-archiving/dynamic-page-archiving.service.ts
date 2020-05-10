@@ -1,7 +1,7 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
-import { CreateArticleDto } from 'src/article/dto/create-article.dto';
+import { CreateArticleDto } from '../article/dto/create-article.dto';
 /**
  * Job producer of snapshoting dynamic pages. Should revoke this in other modules.
  */

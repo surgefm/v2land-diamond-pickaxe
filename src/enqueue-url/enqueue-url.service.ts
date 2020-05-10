@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { fromUrl, parseDomain, ParseResultType } from 'parse-domain';
-import { DynamicPageArchivingService } from 'src/dynamic-page-archiving/dynamic-page-archiving.service';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
+import { DynamicPageArchivingService } from '../dynamic-page-archiving/dynamic-page-archiving.service';
 import { FulltextExtractionService } from '../fulltext-extraction/fulltext-extraction.service';
 import { SiteService } from '../site/site.service';
 
@@ -39,7 +39,9 @@ export class EnqueueUrlService {
 
       if (candidateArticle.site.dynamicLoading) {
         // The source doesn't provide fulltext: archive -> parse -> save
-        this.dynamicPageArchivingService.archiveParseSave(candidateArticle);
+        await this.dynamicPageArchivingService.archiveParseSave(
+          candidateArticle
+        );
       } else {
         // The source provides fulltext: parse -> save
         await this.fulltextExtractionService.extractAndSave(candidateArticle);
