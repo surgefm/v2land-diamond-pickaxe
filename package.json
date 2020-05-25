@@ -31,6 +31,7 @@
     "@nestjs/schedule": "^0.3.1",
     "@nestjs/typeorm": "^7.0.0",
     "@postlight/mercury-parser": "^2.2.0",
+    "@v2land/mercury-parser": "^2.2.7",
     "bull": "^3.13.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
@@ -49,6 +50,7 @@
     "typeorm": "^0.2.24"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.11",
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.9",
