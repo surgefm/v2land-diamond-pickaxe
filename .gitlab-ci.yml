@@ -2,6 +2,7 @@ include:
   - template: Auto-DevOps.gitlab-ci.yml
 
 doc_pages:
+  needs: []
   image: node:alpine
   stage: deploy
   cache:
@@ -9,8 +10,8 @@ doc_pages:
     paths:
       - node_modules
   script:
-  - yarn install
-  - yarn run compodoc -p tsconfig.json -d public
+    - yarn install
+    - yarn run compodoc -p tsconfig.json -d public
   artifacts:
     paths:
-    - public
+      - public
