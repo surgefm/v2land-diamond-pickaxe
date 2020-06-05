@@ -3,8 +3,6 @@ version: "3.8"
 services:
   app:
     image: registry.gitlab.com/oppilate/v2land-diamond-hoe-refreshed/master
-    ports:
-      - "3000"
     environment:
       PORT: 3000
       REDIS_PORT: 6379
@@ -16,3 +14,9 @@ services:
       DB_PASSWORD: password
   redis:
     image: redis:alpine
+  web:
+    image: nginx:alpine
+    ports:
+      - 443
+    volumes:
+      - ./nginx:/etc/nginx
