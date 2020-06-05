@@ -1,0 +1,18 @@
+
+version: "3.8"
+services:
+  app:
+    image: registry.gitlab.com/oppilate/v2land-diamond-hoe-refreshed/master
+    ports:
+      - "3000"
+    environment:
+      PORT: 3000
+      REDIS_PORT: 6379
+      REDIS_HOST: localhost
+      DB_PORT: 5432
+      DB_HOST: localhost
+      DB_DATABASE: v2land
+      DB_USERNAME: v2land
+      DB_PASSWORD: password
+  redis:
+    image: redis:alpine
