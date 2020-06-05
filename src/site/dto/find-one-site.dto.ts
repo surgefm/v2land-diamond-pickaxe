@@ -1,3 +1,3 @@
 export class FindOneSiteDto {
-  name: string;
+  name?: string;
 }
