@@ -1,6 +1,15 @@
 include:
   - template: Auto-DevOps.gitlab-ci.yml
 
+services:
+  - postgres
+
+variables:
+  POSTGRES_ENABLED: "true"
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+  POSTGRES_DB: v2land
+
 doc_pages:
   needs: []
   image: node:alpine
