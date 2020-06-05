@@ -9,7 +9,9 @@ RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 WORKDIR /home/node/app
 
 ## Copy built node modules and binaries without including the toolchain
+COPY package*.json ./
 COPY --from=builder node_modules .
+COPY --chown=node:node . .
 
 EXPOSE 3000
 
