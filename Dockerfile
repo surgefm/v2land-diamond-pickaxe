@@ -2,11 +2,12 @@ FROM node:alpine as builder
 WORKDIR /app
 
 ## Install build toolchain, install node deps and compile native add-ons
-RUN apk add --no-cache make g++
+RUN apk add --no-cache make git
 COPY ./package.json ./
+COPY ./yarn.lock ./
 RUN yarn
 COPY . .
-RUN yarn run build
+RUN yarn run build 
 
 FROM node:alpine as app
 RUN mkdir -p /app/node_modules && chown -R node:node /app
