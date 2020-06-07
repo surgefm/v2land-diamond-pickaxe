@@ -18,14 +18,15 @@ build:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE:latest
 
-services:
-  - postgres
-
-variables:
-  POSTGRES_ENABLED: "true"
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: password
-  POSTGRES_DB: v2land
+test:
+  stage: test
+  services:
+    - postgres
+  variables:
+    POSTGRES_ENABLED: "true"
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: password
+    POSTGRES_DB: v2land
 
 doc_pages:
   needs: []
