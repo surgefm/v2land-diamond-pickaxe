@@ -96,7 +96,6 @@ import { SiteModule } from './site/site.module';
         DB_HOST: Joi.string().default('localhost'),
         DB_DATABASE: Joi.string().default('v2land'),
         DB_USERNAME: Joi.string()
-          .valid('postgres', 'cockroachdb')
           .default('postgres'),
         DB_PASSWORD: Joi.string().default('password'),
       }),
