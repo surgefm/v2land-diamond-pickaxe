@@ -1,8 +1,9 @@
 FROM node:alpine as builder
+RUN apk add --no-cache make git
+
 WORKDIR /app
 
 ## Install build toolchain, install node deps and compile native add-ons
-RUN apk add --no-cache make git
 COPY package.json yarn.lock ./
 RUN yarn --only=development
 COPY . .
