@@ -1,10 +1,17 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Site } from '../site/site.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Site } from "../site/site.entity";
+
+enum Status {
+  Pending = "pending",
+  Admitted = "admitted",
+  Rejected = "rejected",
+  Removed = "removed",
+}
 
 /**
  * This is the article entity used across langchao.org
  */
-@Entity()
+@Entity("news")
 export class Article {
   @PrimaryGeneratedColumn()
   id: number;
@@ -36,15 +43,15 @@ export class Article {
   @Column({ nullable: true })
   screenshot?: string;
 
-  @Column({ default: 'pending' })
+  @Column({ default: Status.Pending })
   status: string;
+
+  @Column({ nullable: true })
+  comment?: string;
 
   @Column({ nullable: true })
   author?: string;
 
-  @ManyToOne(
-    () => Site,
-    site => site.articles
-  )
+  @ManyToOne(() => Site, (site) => site.articles)
   site: Site; // will automatically suffix `Id` in database
 }
