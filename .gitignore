@@ -3,6 +3,7 @@
 /node_modules
 /documentation
 /public
+.yarn
 
 # Logs
 logs
