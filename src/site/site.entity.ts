@@ -1,5 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Article } from '../article/article.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Article } from "../article/article.entity";
 
 /**
  * This is the news source site entity used across langchao.org
@@ -15,7 +15,7 @@ export class Site {
    * Should be unique, but it is not the primary key.
    */
   @Column()
-  url: string;
+  rssUrl: string;
 
   @Column()
   name: string;
@@ -23,7 +23,7 @@ export class Site {
   /**
    * Domain site uses.
    */
-  @Column('text', { array: true })
+  @Column("text", { array: true })
   domains?: string[];
 
   /**
@@ -39,11 +39,7 @@ export class Site {
   @Column({ default: false })
   dynamicLoading: boolean;
 
-  @OneToMany(
-    () => Article,
-    article => article.site,
-    { cascade: true }
-  )
+  @OneToMany(() => Article, (article) => article.site, { cascade: true })
   articles: Article[];
 
   // TODO: @CreateDateColumn @UpdateDateColumn @VersionColumn
@@ -54,8 +50,8 @@ export class Site {
     shouldParseFulltext?: boolean,
     dynamicLoading?: boolean
   ) {
-    this.url = url || '';
-    this.name = name || '';
+    this.rssUrl = url || "";
+    this.name = name || "";
     this.shouldParseFulltext = shouldParseFulltext || false;
     this.dynamicLoading = dynamicLoading || false;
   }

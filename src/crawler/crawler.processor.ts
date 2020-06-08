@@ -18,7 +18,7 @@ export class CrawlerProcessor {
   async getFeed(site: Site) {
     const rssParser = new Parser();
     this.logger.debug(`Getting feed`);
-    const feed: Feed = await rssParser.parseURL(site.url);
+    const feed: Feed = await rssParser.parseURL(site.rssUrl);
     this.logger.debug(`feed: ${feed.title}`);
 
     return feed;

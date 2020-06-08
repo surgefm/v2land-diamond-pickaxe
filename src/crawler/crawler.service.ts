@@ -34,9 +34,9 @@ export class CrawlerService {
       const siteList = await this.siteService.getAll();
       for (const site of siteList) {
         // Only updates those subscribed
-        if (site.url !== null && site.url !== undefined && site.url !== '') {
+        if (site.rssUrl !== null && site.rssUrl !== undefined && site.rssUrl !== '') {
           this.logger.debug(
-            `${site.name}:${site.url} ${typeof site.url} is enqueued`
+            `${site.name}:${site.rssUrl} ${typeof site.rssUrl} is enqueued`
           );
           await this.crawlerQueue.add(site);
         }

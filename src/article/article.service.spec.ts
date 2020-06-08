@@ -13,7 +13,7 @@ const testCreateArticleDto = {
   site: {
     id: 1,
     name: 'Apple',
-    url: 'https://rsshub.app/apple/exchange_repair/zh-cn',
+    rssUrl: 'https://rsshub.app/apple/exchange_repair/zh-cn',
     shouldParseFulltext: true,
     dynamicLoading: true,
     articles: [],
@@ -33,7 +33,7 @@ const articleArray = [
     site: {
       id: 1,
       name: 'Apple',
-      url: 'https://rsshub.app/apple/exchange_repair/zh-cn',
+      rssUrl: 'https://rsshub.app/apple/exchange_repair/zh-cn',
       shouldParseFulltext: true,
       dynamicLoading: true,
       articles: [],
@@ -48,7 +48,7 @@ const articleArray = [
     site: {
       id: 1,
       name: 'Apple',
-      url: 'https://rsshub.app/apple/exchange_repair/zh-cn',
+      rssUrl: 'https://rsshub.app/apple/exchange_repair/zh-cn',
       shouldParseFulltext: true,
       dynamicLoading: true,
       articles: [],
