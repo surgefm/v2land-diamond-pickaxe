@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  app:
+    depends_on:
+      - redis
+    image: registry.gitlab.com/oppilate/v2land-diamond-hoe-refreshed
+    env_file: .env
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pickaxe.rule=Host(`<YOUR_DOMAIN_NAME>`)
+      - traefik.http.routers.pickaxe.tls=true
+      - traefik.http.routers.pickaxe.tls.certresolver=letsencrypt
+      - traefik.http.services.pickaxe-service.loadbalancer.server.port=3000
+      - "traefik.http.routers.pickaxe.service=pickaxe-service"
+
+  redis:
+    image: redis:alpine
+
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.2
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - "--log.level=DEBUG"
+      - --providers.docker
+      - "--providers.docker.exposedbydefault=false"
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - "--certificatesResolvers.letsencrypt.acme.email=<YOUR_EMAIL_ADDRESS>"
+      - "--certificatesResolvers.letsencrypt.acme.storage=/acme.json"
+      - "--certificatesResolvers.letsencrypt.acme.tlsChallenge=true"
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./acme.json:/acme.json
+    label:
+      # Redirect all HTTP to HTTPS permanently
+      - traefik.http.routers.http_catchall.rule=HostRegexp(`{any:.+}`)
+      - traefik.http.routers.http_catchall.entrypoints=web
+      - traefik.http.routers.http_catchall.middlewares=https_redirect
+      - traefik.http.middlewares.https_redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.https_redirect.redirectscheme.permanent=true
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    command: --interval 30
