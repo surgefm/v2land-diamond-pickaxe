@@ -8,7 +8,7 @@ import { FulltextExtractionService } from './fulltext-extraction.service';
 // TODO: Seperate dynamic page archiving and page parsing
 @Module({
   imports: [
-    BullModule.registerQueue({
+    BullModule.registerQueueAsync({
       name: 'fulltext-extraction',
     }),
     ArticleModule,

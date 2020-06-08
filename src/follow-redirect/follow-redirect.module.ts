@@ -8,7 +8,7 @@ import { FollowRedirectService } from './follow-redirect.service';
   imports: [
     HttpModule,
     ArticleModule,
-    BullModule.registerQueue({
+    BullModule.registerQueueAsync({
       name: 'follow-redirect',
     }),
   ],

@@ -14,7 +14,7 @@ import { CrawlerService } from './crawler.service';
     SiteModule,
     EnqueueUrlModule,
     ArticleModule,
-    BullModule.registerQueue({
+    BullModule.registerQueueAsync({
       name: 'crawler',
     }),
   ],

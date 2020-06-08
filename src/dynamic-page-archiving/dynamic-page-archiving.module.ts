@@ -6,7 +6,7 @@ import { DynamicPageArchivingService } from './dynamic-page-archiving.service';
 
 @Module({
   imports: [
-    BullModule.registerQueue({
+    BullModule.registerQueueAsync({
       name: 'dynamic-page-archiving',
     }),
     FulltextExtractionModule,
