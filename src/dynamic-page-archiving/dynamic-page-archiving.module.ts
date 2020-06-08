@@ -3,15 +3,25 @@ import { Module } from '@nestjs/common';
 import { FulltextExtractionModule } from '../fulltext-extraction/fulltext-extraction.module';
 import { DynamicPageArchivingProcessor } from './dynamic-page-archiving.processor';
 import { DynamicPageArchivingService } from './dynamic-page-archiving.service';
+import {ConfigService, ConfigModule} from '@nestjs/config';
 
+export const dynamicPageArchivingQueue = BullModule.registerQueueAsync({
+  name: 'dynamic-page-archiving',
+  inject: [ConfigService],
+  imports: [ConfigModule],
+  useFactory: (configService: ConfigService) => ({
+    redis: {
+      host: configService.get<string>('REDIS_HOST'),
+      port: configService.get<number>('REDIS_PORT'),
+    },
+  }),
+})
 @Module({
   imports: [
-    BullModule.registerQueueAsync({
-      name: 'dynamic-page-archiving',
-    }),
+    dynamicPageArchivingQueue,
     FulltextExtractionModule,
   ],
   providers: [DynamicPageArchivingProcessor, DynamicPageArchivingService],
-  exports: [DynamicPageArchivingService],
+  exports: [DynamicPageArchivingService, dynamicPageArchivingQueue],
 })
 export class DynamicPageArchivingModule {}

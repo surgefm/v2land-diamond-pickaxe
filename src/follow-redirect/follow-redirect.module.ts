@@ -3,16 +3,27 @@ import { HttpModule, Module } from '@nestjs/common';
 import { ArticleModule } from '../article/article.module';
 import { FollowRedirectProcessor } from './follow-redirect.processor';
 import { FollowRedirectService } from './follow-redirect.service';
+import {ConfigService, ConfigModule} from '@nestjs/config';
+
+export const followRedirectQueue = BullModule.registerQueueAsync({
+  name: 'follow-redirect',
+  inject: [ConfigService],
+  imports: [ConfigModule],
+  useFactory: (configService: ConfigService) => ({
+    redis: {
+      host: configService.get<string>('REDIS_HOST'),
+      port: configService.get<number>('REDIS_PORT'),
+    },
+  }),
+})
 
 @Module({
   imports: [
     HttpModule,
     ArticleModule,
-    BullModule.registerQueueAsync({
-      name: 'follow-redirect',
-    }),
+    followRedirectQueue,
   ],
   providers: [FollowRedirectService, FollowRedirectProcessor],
-  exports: [FollowRedirectService],
+  exports: [FollowRedirectService,followRedirectQueue],
 })
 export class FollowRedirectModule {}
