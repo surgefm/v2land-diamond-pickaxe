@@ -7,11 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticleModule } from './article/article.module';
-import { CrawlerModule } from './crawler/crawler.module';
-import { DynamicPageArchivingModule } from './dynamic-page-archiving/dynamic-page-archiving.module';
+import { CrawlerModule, crawlerQueue } from './crawler/crawler.module';
+import { DynamicPageArchivingModule, dynamicPageArchivingQueue } from './dynamic-page-archiving/dynamic-page-archiving.module';
 import { EnqueueUrlModule } from './enqueue-url/enqueue-url.module';
-import { FollowRedirectModule } from './follow-redirect/follow-redirect.module';
-import { FulltextExtractionModule } from './fulltext-extraction/fulltext-extraction.module';
+import { FollowRedirectModule, followRedirectQueue } from './follow-redirect/follow-redirect.module';
+import { FulltextExtractionModule, fulltextExtractionQueue } from './fulltext-extraction/fulltext-extraction.module';
 import { SiteModule } from './site/site.module';
 @Module({
   imports: [
@@ -31,50 +31,10 @@ import { SiteModule } from './site/site.module';
         autoLoadEntities: true,
       }),
     }),
-    BullModule.registerQueueAsync({
-      inject: [ConfigService],
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        name: 'crawler',
-        redis: {
-          host: configService.get<string>('REDIS_HOST'),
-          port: configService.get<number>('REDIS_PORT'),
-        },
-      }),
-    }),
-    BullModule.registerQueueAsync({
-      inject: [ConfigService],
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        name: 'fulltext-extraction',
-        redis: {
-          host: configService.get<string>('REDIS_HOST'),
-          port: configService.get<number>('REDIS_PORT'),
-        },
-      }),
-    }),
-    BullModule.registerQueueAsync({
-      inject: [ConfigService],
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        name: 'dynamic-page-archiving',
-        redis: {
-          host: configService.get<string>('REDIS_HOST'),
-          port: configService.get<number>('REDIS_PORT'),
-        },
-      }),
-    }),
-    BullModule.registerQueueAsync({
-      inject: [ConfigService],
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        name: 'follow-redirect',
-        redis: {
-          host: configService.get<string>('REDIS_HOST'),
-          port: configService.get<number>('REDIS_PORT'),
-        },
-      }),
-    }),
+    crawlerQueue,
+    fulltextExtractionQueue,
+    dynamicPageArchivingQueue,
+    followRedirectQueue,
     ArticleModule,
     SiteModule,
     FulltextExtractionModule,
