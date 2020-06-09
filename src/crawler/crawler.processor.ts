@@ -20,11 +20,13 @@ export class CrawlerProcessor {
     const rssParser = new Parser();
     this.logger.debug(`Getting feeds`);
 
-    let feeds: Feed[];
+    let feeds: Feed[] = [];
 
     for (const url of site.rssUrls) {
       const feed: Feed = await rssParser.parseURL(url);
-      this.logger.debug(`feed: ${feed.title}`);
+      this.logger.debug(
+        `feed: ${feed.title}, article_count: ${feed.items.length}`
+      );
       feeds.push(feed);
     }
 
@@ -43,6 +45,7 @@ export class CrawlerProcessor {
     //
     let articles: CreateArticleDto[] = [];
     for (const articleInFeed of feed.items) {
+      this.logger.debug(articleInFeed.title);
       const article = new CreateArticleDto();
       article.url = articleInFeed.link;
       article.site = site;
@@ -58,23 +61,26 @@ export class CrawlerProcessor {
     return articles;
   }
 
-  async crawOneFeed(site: Site, feed: Feed) {
+  async crawlOneFeed(site: Site, feed: Feed) {
     const articles = await this.parseArticleCandidateList(site, feed);
 
     // Enqueue for fulltext extraction
     if (site.shouldParseFulltext) {
-      this.logger.debug(`Should parse: ${site.name}`);
+      this.logger.debug(`Should parse: ${site.name} ${articles.length}`);
       // Extract fulltext
-      for (const article of articles) {
+      const promises = articles.map(async (article) => {
+        this.logger.debug(`Saving: ${article.title}`);
         await this.enqueueUrlService.enqueue(article.url);
-      }
+      });
+      await Promise.all(promises);
     } else {
       this.logger.debug(`Don't parse: ${site.name}`);
       // Directly save into database
-      for (const article of articles) {
+      const promises = articles.map(async (article) => {
         this.logger.debug(`Saving: ${article.title}`);
         await this.articleService.create(article);
-      }
+      });
+      await Promise.all(promises);
     }
   }
 
@@ -85,9 +91,8 @@ export class CrawlerProcessor {
 
     const feeds = await this.getFeeds(site);
 
-    const promises = feeds.map(
-      async (feed) => await this.crawOneFeed(site, feed)
-    );
-    await Promise.all(promises);
+    this.logger.debug(`${feeds.length} feeds parsed`);
+
+    feeds.forEach(async (feed) => await this.crawlOneFeed(site, feed));
   }
 }
