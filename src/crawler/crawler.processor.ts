@@ -61,7 +61,7 @@ export class CrawlerProcessor {
     return articles;
   }
 
-  async crawOneFeed(site: Site, feed: Feed) {
+  async crawlOneFeed(site: Site, feed: Feed) {
     const articles = await this.parseArticleCandidateList(site, feed);
 
     // Enqueue for fulltext extraction
@@ -91,9 +91,8 @@ export class CrawlerProcessor {
 
     const feeds = await this.getFeeds(site);
 
-    const promises = feeds.map(
-      async (feed) => await this.crawOneFeed(site, feed)
-    );
-    await Promise.all(promises);
+    this.logger.debug(`${feeds.length} feeds parsed`);
+
+    feeds.forEach(async (feed) => await this.crawlOneFeed(site, feed));
   }
 }
