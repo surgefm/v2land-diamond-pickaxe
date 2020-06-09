@@ -24,7 +24,9 @@ export class CrawlerProcessor {
 
     for (const url of site.rssUrls) {
       const feed: Feed = await rssParser.parseURL(url);
-      this.logger.debug(`feed: ${feed.title}`);
+      this.logger.debug(
+        `feed: ${feed.title}, article_count: ${feed.items.length}`
+      );
       feeds.push(feed);
     }
 
