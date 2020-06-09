@@ -20,7 +20,7 @@ export class CrawlerProcessor {
     const rssParser = new Parser();
     this.logger.debug(`Getting feeds`);
 
-    let feeds: Feed[];
+    let feeds: Feed[] = [];
 
     for (const url of site.rssUrls) {
       const feed: Feed = await rssParser.parseURL(url);
