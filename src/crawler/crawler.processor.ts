@@ -65,18 +65,20 @@ export class CrawlerProcessor {
 
     // Enqueue for fulltext extraction
     if (site.shouldParseFulltext) {
-      this.logger.debug(`Should parse: ${site.name}`);
+      this.logger.debug(`Should parse: ${site.name} ${articles.length}`);
       // Extract fulltext
-      for (const article of articles) {
+      const promises = articles.map(async (article) => {
+        this.logger.debug(`Saving: ${article.title}`);
         await this.enqueueUrlService.enqueue(article.url);
-      }
+      });
     } else {
       this.logger.debug(`Don't parse: ${site.name}`);
       // Directly save into database
-      for (const article of articles) {
+      const promises = articles.map(async (article) => {
         this.logger.debug(`Saving: ${article.title}`);
         await this.articleService.create(article);
-      }
+      });
+      await Promise.all(promises);
     }
   }
 
