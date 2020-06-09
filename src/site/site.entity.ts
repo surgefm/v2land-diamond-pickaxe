@@ -11,11 +11,11 @@ export class Site {
   id: number;
 
   /**
-   * URL to RSS endpoint of the site.
+   * URLs to RSS endpoint of the site.
    * Should be unique, but it is not the primary key.
    */
-  @Column()
-  rssUrl: string;
+  @Column("text", { array: true })
+  rssUrls: string[];
 
   @Column()
   name: string;
@@ -46,11 +46,11 @@ export class Site {
 
   constructor(
     name?: string,
-    url?: string,
+    url?: string[],
     shouldParseFulltext?: boolean,
     dynamicLoading?: boolean
   ) {
-    this.rssUrl = url || "";
+    this.rssUrls = url || [];
     this.name = name || "";
     this.shouldParseFulltext = shouldParseFulltext || false;
     this.dynamicLoading = dynamicLoading || false;

@@ -35,12 +35,12 @@ export class CrawlerService {
       for (const site of siteList) {
         // Only updates those subscribed
         if (
-          site.rssUrl !== null &&
-          site.rssUrl !== undefined &&
-          site.rssUrl !== ""
+          site.rssUrls !== null &&
+          site.rssUrls !== undefined &&
+          site.rssUrls.length > 0
         ) {
           this.logger.debug(
-            `${site.name}:${site.rssUrl} ${typeof site.rssUrl} is enqueued`
+            `${site.name}:${site.rssUrls} ${typeof site.rssUrls} is enqueued`
           );
           await this.crawlerQueue.add(site);
         }
@@ -58,12 +58,12 @@ export class CrawlerService {
     for (const site of siteList) {
       // Only updates those subscribed
       if (
-        site.rssUrl !== null &&
-        site.rssUrl !== undefined &&
-        site.rssUrl !== ""
+        site.rssUrls !== null &&
+        site.rssUrls !== undefined &&
+        site.rssUrls.length > 0
       ) {
         this.logger.debug(
-          `${site.name}:${site.rssUrl} ${typeof site.rssUrl} is enqueued`
+          `${site.name}:${site.rssUrls} ${typeof site.rssUrls} is enqueued`
         );
         await this.crawlerQueue.add(site);
       }

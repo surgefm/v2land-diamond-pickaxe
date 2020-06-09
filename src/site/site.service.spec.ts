@@ -20,14 +20,14 @@ const siteArray = [
   {
     id: 1,
     name: 'Apple 更换和维修扩展计划',
-    rssUrl: 'http://static.userland.com/gems/backend/rssTwoExample2.xml',
+    rssUrls: 'http://static.userland.com/gems/backend/rssTwoExample2.xml',
     shouldParseFulltext: true,
     dynamicLoading: false,
   },
   {
     id: 2,
     name: 'Apple 更换和维修扩展计划',
-    rssUrl: 'http://static.userland.com/gems/backend/rssTwoExample2.xml',
+    rssUrls: 'http://static.userland.com/gems/backend/rssTwoExample2.xml',
     shouldParseFulltext: true,
     dynamicLoading: false,
   },

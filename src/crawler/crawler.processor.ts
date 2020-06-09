@@ -1,13 +1,13 @@
-import { Process, Processor } from '@nestjs/bull';
-import { Logger } from '@nestjs/common';
-import { Job } from 'bull';
-import Parser, { Output as Feed } from 'rss-parser';
-import { ArticleService } from '../article/article.service';
-import { CreateArticleDto } from '../article/dto/create-article.dto';
-import { EnqueueUrlService } from '../enqueue-url/enqueue-url.service';
-import { Site } from '../site/site.entity';
+import { Process, Processor } from "@nestjs/bull";
+import { Logger } from "@nestjs/common";
+import { Job } from "bull";
+import Parser, { Output as Feed } from "rss-parser";
+import { ArticleService } from "../article/article.service";
+import { CreateArticleDto } from "../article/dto/create-article.dto";
+import { EnqueueUrlService } from "../enqueue-url/enqueue-url.service";
+import { Site } from "../site/site.entity";
 
-@Processor('crawler')
+@Processor("crawler")
 export class CrawlerProcessor {
   private readonly logger = new Logger(CrawlerProcessor.name);
 
@@ -15,13 +15,20 @@ export class CrawlerProcessor {
     private readonly enqueueUrlService: EnqueueUrlService,
     private readonly articleService: ArticleService
   ) {}
-  async getFeed(site: Site) {
-    const rssParser = new Parser();
-    this.logger.debug(`Getting feed`);
-    const feed: Feed = await rssParser.parseURL(site.rssUrl);
-    this.logger.debug(`feed: ${feed.title}`);
 
-    return feed;
+  async getFeeds(site: Site): Promise<Feed[]> {
+    const rssParser = new Parser();
+    this.logger.debug(`Getting feeds`);
+
+    let feeds: Feed[];
+
+    for (const url of site.rssUrls) {
+      const feed: Feed = await rssParser.parseURL(url);
+      this.logger.debug(`feed: ${feed.title}`);
+      feeds.push(feed);
+    }
+
+    return feeds;
   }
 
   /**
@@ -51,12 +58,7 @@ export class CrawlerProcessor {
     return articles;
   }
 
-  @Process()
-  async crawl(job: Job<Site>) {
-    const site = job.data;
-    this.logger.debug(`Crawling ${site.name}`);
-
-    const feed = await this.getFeed(site);
+  async crawOneFeed(site: Site, feed: Feed) {
     const articles = await this.parseArticleCandidateList(site, feed);
 
     // Enqueue for fulltext extraction
@@ -74,5 +76,18 @@ export class CrawlerProcessor {
         await this.articleService.create(article);
       }
     }
+  }
+
+  @Process()
+  async crawl(job: Job<Site>) {
+    const site = job.data;
+    this.logger.debug(`Crawling ${site.name}`);
+
+    const feeds = await this.getFeeds(site);
+
+    const promises = feeds.map(
+      async (feed) => await this.crawOneFeed(site, feed)
+    );
+    await Promise.all(promises);
   }
 }
