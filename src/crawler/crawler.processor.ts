@@ -45,6 +45,7 @@ export class CrawlerProcessor {
     //
     let articles: CreateArticleDto[] = [];
     for (const articleInFeed of feed.items) {
+      this.logger.debug(articleInFeed.title);
       const article = new CreateArticleDto();
       article.url = articleInFeed.link;
       article.site = site;
@@ -71,6 +72,7 @@ export class CrawlerProcessor {
         this.logger.debug(`Saving: ${article.title}`);
         await this.enqueueUrlService.enqueue(article.url);
       });
+      await Promise.all(promises);
     } else {
       this.logger.debug(`Don't parse: ${site.name}`);
       // Directly save into database
