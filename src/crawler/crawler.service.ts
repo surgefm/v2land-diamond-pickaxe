@@ -1,9 +1,9 @@
-import { InjectQueue } from "@nestjs/bull";
-import { Injectable, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { SchedulerRegistry, Interval } from "@nestjs/schedule";
-import { Queue } from "bull";
-import { SiteService } from "../site/site.service";
+import { InjectQueue } from '@nestjs/bull';
+import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Interval, SchedulerRegistry } from '@nestjs/schedule';
+import { Queue } from 'bull';
+import { SiteService } from '../site/site.service';
 
 /**
  * Crawler working with RSS sources. Should never be directly revoked.
@@ -15,7 +15,7 @@ export class CrawlerService {
     private schedulerRegistry: SchedulerRegistry,
     private configService: ConfigService,
     private siteService: SiteService,
-    @InjectQueue("crawler") private crawlerQueue: Queue
+    @InjectQueue('crawler') private crawlerQueue: Queue
   ) {
     // // Set Corn according to interval in env
     // if (this.schedulerRegistry.getIntervals().length == 0) {
@@ -30,7 +30,7 @@ export class CrawlerService {
     this.logger.warn(`Interval executing at time (${seconds})!`);
     // Periodically add all recorded sites to the crawler queue.
     const crawlerCallback = async () => {
-      this.logger.debug("Corn task of Crawler started");
+      this.logger.debug('Corn task of Crawler started');
       const siteList = await this.siteService.getAll();
       for (const site of siteList) {
         // Only updates those subscribed
@@ -48,12 +48,12 @@ export class CrawlerService {
     };
 
     const interval = setInterval(crawlerCallback, seconds);
-    this.schedulerRegistry.addInterval("periodic-crawling", interval);
+    this.schedulerRegistry.addInterval('periodic-crawling', interval);
   }
 
   @Interval(10000)
   async crawling() {
-    this.logger.debug("Corn task of Crawler started");
+    this.logger.debug('Corn task of Crawler started');
     const siteList = await this.siteService.getAll();
     for (const site of siteList) {
       // Only updates those subscribed
