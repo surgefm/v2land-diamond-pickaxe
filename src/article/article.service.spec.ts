@@ -1,24 +1,24 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { getRepositoryToken } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { Article } from "./article.entity";
-import { ArticleService } from "./article.service";
-import { CreateArticleDto } from "./dto/create-article.dto";
-import { FindArticleDto } from "./dto/find-article.dto";
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Article } from './article.entity';
+import { ArticleService } from './article.service';
+import { CreateArticleDto } from './dto/create-article.dto';
+import { FindArticleDto } from './dto/find-article.dto';
 
 const testCreateArticleDto = {
-  name: "Apple 更换和维修扩展计划",
-  url: "https://rsshub.app/apple/exchange_repair/zh-cn",
-  status: "pending",
+  name: 'Apple 更换和维修扩展计划',
+  url: 'https://rsshub.app/apple/exchange_repair/zh-cn',
+  status: 'pending',
   site: {
     id: 1,
-    name: "Apple",
-    rssUrls: ["https://rsshub.app/apple/exchange_repair/zh-cn"],
+    name: 'Apple',
+    rssUrls: ['https://rsshub.app/apple/exchange_repair/zh-cn'],
     shouldParseFulltext: true,
     dynamicLoading: true,
     articles: [],
   },
-  author: "authorname",
+  author: 'authorname',
 } as CreateArticleDto;
 const testArticleId = 123;
 const testArticle1 = { id: testArticleId, ...testCreateArticleDto } as Article;
@@ -27,37 +27,37 @@ const articleArray = [
   testArticle1,
   {
     id: 1,
-    name: "Apple 更换和维修扩展计划",
-    url: "https://rsshub.app/apple/exchange_repair/zh-cn",
-    status: "pending",
+    name: 'Apple 更换和维修扩展计划',
+    url: 'https://rsshub.app/apple/exchange_repair/zh-cn',
+    status: 'pending',
     site: {
       id: 1,
-      name: "Apple",
-      rssUrls: "https://rsshub.app/apple/exchange_repair/zh-cn",
+      name: 'Apple',
+      rssUrls: ['https://rsshub.app/apple/exchange_repair/zh-cn'],
       shouldParseFulltext: true,
       dynamicLoading: true,
       articles: [],
     },
-    author: "authorname",
+    author: 'authorname',
   },
   {
     id: 2,
-    name: "Apple 更换和维修扩展计划",
-    url: "https://rsshub.app/apple/exchange_repair/zh-cn",
-    status: "pending",
+    name: 'Apple 更换和维修扩展计划',
+    url: 'https://rsshub.app/apple/exchange_repair/zh-cn',
+    status: 'pending',
     site: {
       id: 1,
-      name: "Apple",
-      rssUrls: "https://rsshub.app/apple/exchange_repair/zh-cn",
+      name: 'Apple',
+      rssUrls: ['https://rsshub.app/apple/exchange_repair/zh-cn'],
       shouldParseFulltext: true,
       dynamicLoading: true,
       articles: [],
     },
-    author: "authorname",
+    author: 'authorname',
   },
 ] as Article[];
 
-describe("ArticleService", () => {
+describe('ArticleService', () => {
   let service: ArticleService;
   let repo: Repository<Article>;
 
@@ -93,13 +93,13 @@ describe("ArticleService", () => {
     repo = module.get<Repository<Article>>(getRepositoryToken(Article));
   });
 
-  it("should be defined", () => {
+  it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
   // create
-  describe("create", () => {
-    it("should insert a site", async () => {
+  describe('create', () => {
+    it('should insert a site', async () => {
       expect(service.create(testCreateArticleDto)).resolves.toEqual(
         testArticle1
       );
@@ -108,9 +108,9 @@ describe("ArticleService", () => {
   });
 
   // findAll
-  describe("findAll", () => {
-    it("should get an array of a single article", () => {
-      const repoSpy = jest.spyOn(repo, "find");
+  describe('findAll', () => {
+    it('should get an array of a single article', () => {
+      const repoSpy = jest.spyOn(repo, 'find');
       expect(service.findAll(testFindArticleDto)).resolves.toEqual([
         testArticle1,
       ]);
@@ -119,16 +119,16 @@ describe("ArticleService", () => {
   });
 
   // findOne
-  describe("findOne by id", () => {
-    it("should get a single article", () => {
-      const repoSpy = jest.spyOn(repo, "findOneOrFail");
+  describe('findOne by id', () => {
+    it('should get a single article', () => {
+      const repoSpy = jest.spyOn(repo, 'findOneOrFail');
       expect(service.findOne(testArticleId)).resolves.toEqual(testArticle1);
       expect(repoSpy).toBeCalledWith(testArticleId);
     });
   });
-  describe("findOne by DTO", () => {
-    it("should get a single article", () => {
-      const repoSpy = jest.spyOn(repo, "findOneOrFail");
+  describe('findOne by DTO', () => {
+    it('should get a single article', () => {
+      const repoSpy = jest.spyOn(repo, 'findOneOrFail');
       expect(service.findOne(testFindArticleDto)).resolves.toEqual(
         testArticle1
       );
@@ -137,25 +137,25 @@ describe("ArticleService", () => {
   });
 
   // delete
-  describe("deleteOne", () => {
-    it("should return {deleted: true}", () => {
+  describe('deleteOne', () => {
+    it('should return {deleted: true}', () => {
       expect(service.deleteOne(1)).resolves.toEqual({ deleted: true });
     });
-    it("should return {deleted: false, message: err.message}", () => {
+    it('should return {deleted: false, message: err.message}', () => {
       const repoSpy = jest
-        .spyOn(repo, "delete")
-        .mockRejectedValueOnce(new Error("Bad Delete Method."));
+        .spyOn(repo, 'delete')
+        .mockRejectedValueOnce(new Error('Bad Delete Method.'));
       expect(service.deleteOne(4)).resolves.toEqual({
         deleted: false,
-        message: "Bad Delete Method.",
+        message: 'Bad Delete Method.',
       });
       expect(repoSpy).toBeCalledWith({ id: 4 });
       expect(repoSpy).toBeCalledTimes(1);
     });
   });
 
-  describe("getAll", () => {
-    it("should return an array of articles", async () => {
+  describe('getAll', () => {
+    it('should return an array of articles', async () => {
       const articles = await service.getAll();
       expect(articles).toEqual(articleArray);
     });

@@ -4,8 +4,8 @@ export class CreateSiteDto {
   name?: string;
 
   @IsOptional()
-  @IsUrl()
-  url?: string;
+  @IsUrl({}, { each: true })
+  rssUrls?: string[];
 
   @IsOptional()
   @IsFQDN({}, { each: true })
