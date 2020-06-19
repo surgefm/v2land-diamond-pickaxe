@@ -13,8 +13,12 @@ export class EnqueueUrlService {
     private dynamicPageArchivingService: DynamicPageArchivingService,
     private siteService: SiteService
   ) {}
-  async enqueue(url: string) {
-    let candidateArticle = new CreateArticleDto();
+
+  async enqueue(
+    url: string,
+    vanillaArticle: CreateArticleDto = new CreateArticleDto()
+  ) {
+    let candidateArticle = vanillaArticle;
     candidateArticle.url = url;
 
     this.logger.debug(`Article enqueued: ${url}`);

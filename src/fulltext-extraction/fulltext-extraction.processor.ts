@@ -19,7 +19,6 @@ export class FulltextExtractionProcessor {
     let parsed = await Mercury.parse(article.url, {
       // Must encode to HTML entities to prevent mercury's encoding problems on CJK
       html: article.html,
-      
     });
 
     const html = entities.decodeXML(parsed.content);

@@ -1,13 +1,13 @@
-import { Process, Processor } from "@nestjs/bull";
-import { Logger } from "@nestjs/common";
-import { Job } from "bull";
-import Parser, { Output as Feed } from "rss-parser";
-import { ArticleService } from "../article/article.service";
-import { CreateArticleDto } from "../article/dto/create-article.dto";
-import { EnqueueUrlService } from "../enqueue-url/enqueue-url.service";
-import { Site } from "../site/site.entity";
+import { Process, Processor } from '@nestjs/bull';
+import { Logger } from '@nestjs/common';
+import { Job } from 'bull';
+import Parser, { Output as Feed } from 'rss-parser';
+import { ArticleService } from '../article/article.service';
+import { CreateArticleDto } from '../article/dto/create-article.dto';
+import { EnqueueUrlService } from '../enqueue-url/enqueue-url.service';
+import { Site } from '../site/site.entity';
 
-@Processor("crawler")
+@Processor('crawler')
 export class CrawlerProcessor {
   private readonly logger = new Logger(CrawlerProcessor.name);
 
@@ -68,15 +68,15 @@ export class CrawlerProcessor {
     if (site.shouldParseFulltext) {
       this.logger.debug(`Should parse: ${site.name} ${articles.length}`);
       // Extract fulltext
-      const promises = articles.map(async (article) => {
+      const promises = articles.map(async article => {
         this.logger.debug(`Saving: ${article.title}`);
-        await this.enqueueUrlService.enqueue(article.url);
+        await this.enqueueUrlService.enqueue(article.url, article);
       });
       await Promise.all(promises);
     } else {
       this.logger.debug(`Don't parse: ${site.name}`);
       // Directly save into database
-      const promises = articles.map(async (article) => {
+      const promises = articles.map(async article => {
         this.logger.debug(`Saving: ${article.title}`);
         await this.articleService.create(article);
       });
@@ -93,6 +93,6 @@ export class CrawlerProcessor {
 
     this.logger.debug(`${feeds.length} feeds parsed`);
 
-    feeds.forEach(async (feed) => await this.crawlOneFeed(site, feed));
+    feeds.forEach(async feed => await this.crawlOneFeed(site, feed));
   }
 }
