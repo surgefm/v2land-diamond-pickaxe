@@ -51,7 +51,7 @@ export class CrawlerService {
     this.schedulerRegistry.addInterval('periodic-crawling', interval);
   }
 
-  @Interval(10000)
+  @Interval(100000)
   async crawling() {
     this.logger.debug('Corn task of Crawler started');
     const siteList = await this.siteService.getAll();
