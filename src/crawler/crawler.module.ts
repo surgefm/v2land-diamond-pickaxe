@@ -17,7 +17,7 @@ export const crawlerQueue = BullModule.registerQueueAsync({
       port: configService.get<number>('REDIS_PORT'),
     },
   }),
-})
+});
 
 @Module({
   providers: [CrawlerService, CrawlerProcessor],
@@ -28,6 +28,6 @@ export const crawlerQueue = BullModule.registerQueueAsync({
     ArticleModule,
     crawlerQueue,
   ],
-  exports: [crawlerQueue]
+  exports: [crawlerQueue],
 })
 export class CrawlerModule {}

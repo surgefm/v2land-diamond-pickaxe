@@ -39,6 +39,7 @@
     "entities": "^2.0.2",
     "follow-redirects": "^1.11.0",
     "html-to-text": "^5.1.1",
+    "js-yaml": "^3.14.0",
     "mysql": "^2.18.1",
     "parse-domain": "^3.0.2",
     "pg": "^8.0.3",
