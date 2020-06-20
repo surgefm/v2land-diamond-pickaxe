@@ -46,7 +46,11 @@ export class SiteService {
 
       // If the candidateSite has no known domain
       // Alternatively set Second Level Domain of Site.url as default site name
-      parseResult = parseDomain(fromUrl(candidateSite.url));
+      if (candidateSite.rssUrls.length < 1) {
+        this.logger.error('!!!!!!!!!!!No rssUrls are given!!!!!!!!!!');
+        return null;
+      }
+      parseResult = parseDomain(fromUrl(candidateSite.rssUrls[0]));
       if (parseResult.type === ParseResultType.Listed) {
         const { domain, topLevelDomains } = parseResult;
         candidateSite.name =
