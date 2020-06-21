@@ -33,11 +33,11 @@ doc_pages:
   image: node:alpine
   stage: deploy
   cache:
-    untracked: true
     paths:
       - node_modules
+      - .yarn
   script:
-    - yarn install
+    - yarn --frozen-lockfile --cache-folder .yarn --prefer-offline
     - yarn run compodoc -p tsconfig.json -d public
   artifacts:
     paths:
