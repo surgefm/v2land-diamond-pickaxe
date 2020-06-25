@@ -1,4 +1,4 @@
-import { Site } from '../../site/site.entity';
+import { Site } from '../../site/site.model';
 import { ArticleStatus } from './create-article.dto';
 
 export class FindArticleDto {

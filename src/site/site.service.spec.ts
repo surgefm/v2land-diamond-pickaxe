@@ -1,9 +1,8 @@
+import { getModelToken } from '@nestjs/sequelize';
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CreateSiteDto } from './dto/create-site.dto';
 import { FindOneSiteDto } from './dto/find-one-site.dto';
-import { Site } from './site.entity';
+import { Site } from './site.model';
 import { SiteService } from './site.service';
 
 const testCreateSiteDto = {
@@ -35,14 +34,13 @@ const siteArray = [
 
 describe('SiteService', () => {
   let service: SiteService;
-  let repo: Repository<Site>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SiteService,
         {
-          provide: getRepositoryToken(Site),
+          provide: getModelToken(Site),
 
           // define all the methods that you use from the siteRepo
           // give proper return values as expected or mock implementations, your choice
@@ -66,21 +64,10 @@ describe('SiteService', () => {
     }).compile();
 
     service = module.get<SiteService>(SiteService);
-    repo = module.get<Repository<Site>>(getRepositoryToken(Site));
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  });
-
-  // create
-  describe('create', () => {
-    it('should insert a site', async () => {
-      expect(service.create(testCreateSiteDto)).resolves.toEqual(testSite1);
-      expect(repo.create).toBeCalledTimes(1);
-      expect(repo.create).toBeCalledWith(testCreateSiteDto);
-      expect(repo.save).toBeCalledTimes(1);
-    });
   });
 
   // findAll

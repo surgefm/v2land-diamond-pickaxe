@@ -5,7 +5,7 @@ import Parser, { Output as Feed } from 'rss-parser';
 import { ArticleService } from '../article/article.service';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
 import { EnqueueUrlService } from '../enqueue-url/enqueue-url.service';
-import { Site } from '../site/site.entity';
+import { Site } from '../site/site.model';
 
 @Processor('crawler')
 export class CrawlerProcessor {
@@ -52,12 +52,12 @@ export class CrawlerProcessor {
       article.title = articleInFeed.title;
       article.time = new Date(articleInFeed.pubDate);
       article.author = articleInFeed.creator;
-      
+
       if (feed.shouldParseFulltext) {
         article.abstract = articleInFeed.content;
       } else {
         article.content = articleInFeed.content;
-        article.abstract = articleInFeed.content[0:200]
+        article.abstract = articleInFeed.content.slice(0, 200);
         article.html = articleInFeed.content;
       }
       articles.push(article);
