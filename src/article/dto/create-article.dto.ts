@@ -1,5 +1,5 @@
 import { IsUrl } from 'class-validator';
-import { Site } from '../../site/site.entity';
+import { Site } from '../../site/site.model';
 
 export class CreateArticleDto {
   @IsUrl()

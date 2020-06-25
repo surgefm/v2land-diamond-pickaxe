@@ -30,7 +30,7 @@ describe('AppController (e2e)', () => {
       .post('/site')
       .send({
         name: '端传媒',
-        url: 'http://feeds.initium.news/theinitium',
+        rssUrls: ['http://feeds.initium.news/theinitium'],
         dynamicLoading: true,
         shouldParseFulltext: true,
       })

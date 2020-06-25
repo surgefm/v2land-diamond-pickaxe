@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { SequelizeModule } from '@nestjs/sequelize';
 import { SiteController } from './site.controller';
-import { Site } from './site.entity';
+import { Site } from './site.model';
 import { SiteService } from './site.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Site])],
+  imports: [SequelizeModule.forFeature([Site])],
   providers: [SiteService],
   controllers: [SiteController],
   exports: [SiteService],

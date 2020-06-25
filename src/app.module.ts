@@ -2,7 +2,7 @@ import Joi from '@hapi/joi';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { SequelizeModule } from '@nestjs/sequelize';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ArticleModule } from './article/article.module';
@@ -23,20 +23,20 @@ import {
 import { SiteModule } from './site/site.module';
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({
+    SequelizeModule.forRootAsync({
       inject: [ConfigService],
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
+        dialect: 'postgres',
         host: configService.get<string>('DB_HOST'),
         port: configService.get<number>('DB_PORT'),
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: configService.get<string>('DB_SYNC'),
+        synchronize: configService.get<boolean>('DB_SYNC'),
         keepConnectionAlive: true,
-        autoLoadEntities: true,
+        autoLoadModels: true,
       }),
     }),
     crawlerQueue,

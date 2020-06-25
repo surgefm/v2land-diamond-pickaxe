@@ -1,15 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectModel } from '@nestjs/sequelize';
 import {
   fromUrl,
   parseDomain,
   ParseResult,
   ParseResultType,
 } from 'parse-domain';
-import { Repository } from 'typeorm';
+import { Op, WhereOptions } from 'sequelize';
 import { CreateSiteDto } from './dto/create-site.dto';
 import { FindOneSiteDto } from './dto/find-one-site.dto';
-import { Site } from './site.entity';
+import { Site } from './site.model';
 
 /**
  * Manages sites. Site should be completely unque.
@@ -17,9 +17,7 @@ import { Site } from './site.entity';
 @Injectable()
 export class SiteService {
   private readonly logger = new Logger(SiteService.name);
-  constructor(
-    @InjectRepository(Site) private siteRepository: Repository<Site>
-  ) {}
+  constructor(@InjectModel(Site) private siteModel: typeof Site) {}
   /**
    * Create a site record. Will fail if it exists.
    * Will automatically fill-in the first domain or the Second Level Domain of subscription url as site name if no name is given
@@ -63,8 +61,8 @@ export class SiteService {
       }
     }
 
-    const newSite = this.siteRepository.create(candidateSite);
-    await this.siteRepository.save(newSite);
+    const newSite = new Site(candidateSite);
+    newSite.save();
     return newSite;
   }
 
@@ -73,7 +71,7 @@ export class SiteService {
    * @param findOneSiteDto critera of the site to find
    */
   findAll(findOneSiteDto: FindOneSiteDto): Promise<Site[]> {
-    return this.siteRepository.find(findOneSiteDto);
+    return this.siteModel.findAll({ where: findOneSiteDto as WhereOptions });
   }
 
   /**
@@ -86,8 +84,12 @@ export class SiteService {
    * @param conditions critera of the site to find
    */
   findOne(conditions: FindOneSiteDto): Promise<Site>;
-  findOne(conditions: any) {
-    return this.siteRepository.findOneOrFail(conditions);
+  findOne(conditions: number | FindOneSiteDto) {
+    if (typeof conditions === 'number') {
+      return this.siteModel.findOne({ where: { id: conditions } });
+    }
+
+    return this.siteModel.findOne({ where: conditions as WhereOptions });
   }
 
   /**
@@ -96,7 +98,8 @@ export class SiteService {
    */
   async deleteOne(id: number): Promise<{ deleted: boolean; message?: string }> {
     try {
-      await this.siteRepository.delete({ id });
+      const site = this.findOne(id);
+      (await site).destroy();
       return { deleted: true };
     } catch (err) {
       return { deleted: false, message: err.message };
@@ -107,7 +110,7 @@ export class SiteService {
    * Returns all sites in database
    */
   async getAll(): Promise<Site[]> {
-    return this.siteRepository.find();
+    return this.siteModel.findAll();
   }
 
   async getSiteOf(url: string): Promise<Site> {
@@ -120,11 +123,8 @@ export class SiteService {
     } else {
       // TODO: error handling
     }
-    return await this.siteRepository
-      .createQueryBuilder('site')
-      .where(':targetDomain = ANY (site.domains)', {
-        targetDomain: targetDomain,
-      })
-      .getOne();
+    return await this.siteModel.findOne({
+      where: { domains: { [Op.contains]: [targetDomain] } },
+    });
   }
 }
