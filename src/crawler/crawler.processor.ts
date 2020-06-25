@@ -51,10 +51,14 @@ export class CrawlerProcessor {
       article.site = site;
       article.title = articleInFeed.title;
       article.time = new Date(articleInFeed.pubDate);
+      article.author = articleInFeed.creator;
+      
       if (feed.shouldParseFulltext) {
         article.abstract = articleInFeed.content;
       } else {
         article.content = articleInFeed.content;
+        article.abstract = articleInFeed.content[0:200]
+        article.html = articleInFeed.content;
       }
       articles.push(article);
     }
