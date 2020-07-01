@@ -27,6 +27,9 @@ test:
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: password
     POSTGRES_DB: v2land
+  script:
+    - yarn --frozen-lockfile --cache-folder .yarn --prefer-offline
+    - yarn test:e2e
 
 doc_pages:
   needs: []
