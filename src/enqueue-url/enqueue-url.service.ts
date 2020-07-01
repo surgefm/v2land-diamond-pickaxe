@@ -30,9 +30,10 @@ export class EnqueueUrlService {
     if (site === undefined) {
       let parseResult = parseDomain(fromUrl(url));
       if (parseResult.type === ParseResultType.Listed) {
+        // domain: google, topLevelDomains: ["co", "uk"]
         const { domain, topLevelDomains } = parseResult;
         site = await this.siteService.create({
-          domains: [`${domain}.${topLevelDomains}`],
+          domains: [`${domain}.${topLevelDomains.join('.')}`],
         });
       } else {
         // TODO: error handling

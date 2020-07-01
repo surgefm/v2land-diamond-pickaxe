@@ -7,7 +7,6 @@
 // import { SiteModule } from '../site/site.module';
 // import { CrawlerProcessor } from './rss-crawler.processor';
 // import { CrawlerService } from './rss-crawler.service';
-// import {getRepositoryToken} from '@nestjs/typeorm';
 
 // const testSite = {
 //   name: 'RSS 2.0 Example',

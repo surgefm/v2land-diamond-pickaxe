@@ -1,45 +1,48 @@
+import { getModelToken } from '@nestjs/sequelize';
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CreateSiteDto } from './dto/create-site.dto';
 import { FindOneSiteDto } from './dto/find-one-site.dto';
 import { SiteController } from './site.controller';
-import { Site } from './site.entity';
+import { Site } from './site.model';
 import { SiteService } from './site.service';
 
 const testSiteName = 'Apple 更换和维修扩展计划';
-const testSiteUrl = 'https://rsshub.app/apple/exchange_repair/zh-cn';
+const testSiteRSSUrl = 'https://rsshub.app/apple/exchange_repair/zh-cn';
 const testSiteShouldExtractFulltext = true;
 const testSiteDynamicLoading = false;
 const testSiteId = 123;
 const testCreateSiteDto = new CreateSiteDto();
 testCreateSiteDto.name = testSiteName;
-testCreateSiteDto.url = testSiteUrl;
+testCreateSiteDto.rssUrls = [testSiteRSSUrl];
 testCreateSiteDto.dynamicLoading = testSiteDynamicLoading;
 testCreateSiteDto.shouldParseFulltext = testSiteShouldExtractFulltext;
-const testSite1 = new Site(
-  testSiteName,
-  testSiteUrl,
-  testSiteShouldExtractFulltext,
-  testSiteDynamicLoading
-);
+const testSite1 = new Site({
+  name: testSiteName,
+  rssUrls: testSiteRSSUrl,
+  dynamicLoading: testSiteShouldExtractFulltext,
+  shouldParseFulltext: testSiteDynamicLoading,
+});
 testSite1.id = testSiteId;
 const testFindOneSiteDto: FindOneSiteDto = testCreateSiteDto;
 const siteArray = [
-  new Site(
-    '联合国 安理会否决了决议',
-    'https://rsshub.app/un/scveto',
-    true,
-    false
-  ),
-  new Site('单向空间 单读', 'https://rsshub.app/owspace/read/0', true, false),
+  new Site({
+    name: '联合国 安理会否决了决议',
+    rssUrls: ['https://rsshub.app/un/scveto'],
+    dynamicLoading: true,
+    shouldParseFulltext: false,
+  }),
+  new Site({
+    name: '单向空间 单读',
+    rssUrls: ['https://rsshub.app/owspace/read/0'],
+    dynamicLoading: true,
+    shouldParseFulltext: false,
+  }),
 ];
 siteArray[0].id = 0;
 siteArray[0].id = 1;
 
 describe('Site Controller', () => {
   let service: SiteService;
-  let repo: Repository<Site>;
   let controller: SiteController;
 
   beforeEach(async () => {
@@ -60,7 +63,7 @@ describe('Site Controller', () => {
           },
         },
         {
-          provide: getRepositoryToken(Site),
+          provide: getModelToken(Site),
 
           // define all the methods that you use from the siteRepo
           // give proper return values as expected or mock implementations, your choice
@@ -76,7 +79,6 @@ describe('Site Controller', () => {
     }).compile();
 
     service = module.get<SiteService>(SiteService);
-    repo = module.get<Repository<Site>>(getRepositoryToken(Site));
     controller = module.get<SiteController>(SiteController);
   });
 
