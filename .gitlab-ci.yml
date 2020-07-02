@@ -22,12 +22,19 @@ test:
   image: node:alpine
   stage: test
   services:
-    - postgres
+    - postgres:alpine
+    - redis:alpine
   variables:
     POSTGRES_ENABLED: "true"
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: password
     POSTGRES_DB: v2land
+    DB_DB_HOST: postgres
+    DB_USERNAME: postgres
+    DB_PASSWORD: password
+    DB_DATABASE: v2land
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
   script:
     - yarn --frozen-lockfile --cache-folder .yarn --prefer-offline
     - yarn test:e2e
