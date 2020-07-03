@@ -27,7 +27,7 @@ export class EnqueueUrlService {
     let site = await this.siteService.getSiteOf(url);
 
     // If no corresponding site, create one
-    if (site === undefined) {
+    if (site === undefined || site === null) {
       let parseResult = parseDomain(fromUrl(url));
       if (parseResult.type === ParseResultType.Listed) {
         // domain: google, topLevelDomains: ["co", "uk"]
@@ -36,23 +36,17 @@ export class EnqueueUrlService {
           domains: [`${domain}.${topLevelDomains.join('.')}`],
         });
       } else {
-        // TODO: error handling
+        this.logger.error(`URL ${url} is malformed. Failed to create a Site`);
       }
     }
-    if (site !== undefined) {
-      candidateArticle.site = site;
+    candidateArticle.site = site;
 
-      if (candidateArticle.site.dynamicLoading) {
-        // The source doesn't provide fulltext: archive -> parse -> save
-        await this.dynamicPageArchivingService.archiveParseSave(
-          candidateArticle
-        );
-      } else {
-        // The source provides fulltext: parse -> save
-        await this.fulltextExtractionService.extractAndSave(candidateArticle);
-      }
+    if (candidateArticle.site.dynamicLoading) {
+      // The source doesn't provide fulltext: archive -> parse -> save
+      await this.dynamicPageArchivingService.archiveParseSave(candidateArticle);
     } else {
-      throw new Error(`URL ${url} is malformed or unsupported`);
+      // The source provides fulltext: parse -> save
+      await this.fulltextExtractionService.extractAndSave(candidateArticle);
     }
   }
 }
