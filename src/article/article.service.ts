@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { WhereOptions } from 'sequelize';
+import { UniqueConstraintError, WhereOptions } from 'sequelize';
 import { Article } from './article.model';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { FindArticleDto } from './dto/find-article.dto';
@@ -19,7 +19,15 @@ export class ArticleService {
    */
   async create(createArticleDto: CreateArticleDto): Promise<Article> {
     let article = new Article(createArticleDto);
-    article.save();
+    try {
+      article.save();
+    } catch (e) {
+      if (e instanceof UniqueConstraintError) {
+        this.logger.warn(`Article ${article.title} is already present`);
+      } else {
+        this.logger.error(e.message);
+      }
+    }
     return article;
   }
   /**
