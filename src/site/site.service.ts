@@ -6,7 +6,7 @@ import {
   ParseResult,
   ParseResultType,
 } from 'parse-domain';
-import { Op, WhereOptions } from 'sequelize';
+import { Op, UniqueConstraintError, WhereOptions } from 'sequelize';
 import { CreateSiteDto } from './dto/create-site.dto';
 import { FindOneSiteDto } from './dto/find-one-site.dto';
 import { Site } from './site.model';
@@ -62,7 +62,15 @@ export class SiteService {
     }
 
     const newSite = new Site(candidateSite);
-    newSite.save();
+    try {
+      newSite.save();
+    } catch (e) {
+      if (e instanceof UniqueConstraintError) {
+        this.logger.warn(`Site ${newSite.name} is already present`);
+      } else {
+        this.logger.error(e.message);
+      }
+    }
     return newSite;
   }
 
