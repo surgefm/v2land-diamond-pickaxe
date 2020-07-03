@@ -48,12 +48,12 @@ export class Site extends Model<Site> {
   articles: Article[];
 
   @CreatedAt
-  CreatedAt: Date;
+  createdAt: Date;
 
   @UpdatedAt
-  UpdatedAt: Date;
+  updatedAt: Date;
 
-  // TODO: @CreateDateColumn @UpdateDateColumn @VersionColumn
+  // TODO: @VersionColumn
 
   // constructor(
   //   name?: string,
