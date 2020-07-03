@@ -29,10 +29,11 @@ test:
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: password
     POSTGRES_DB: v2land
-    DB_DB_HOST: postgres
+    DB_HOST: postgres
     DB_USERNAME: postgres
     DB_PASSWORD: password
     DB_DATABASE: v2land
+    DB_SYNC: "true"
     REDIS_HOST: redis
     REDIS_PORT: 6379
   script:
