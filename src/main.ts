@@ -1,12 +1,25 @@
-import { ValidationPipe } from '@nestjs/common';
+import { LogLevel, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  let app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   const configService = app.get(ConfigService);
+
+  // Set log level
+  const env = configService.get<string>('NODE_ENV');
+  const logLevels: LogLevel[] =
+    env === 'production'
+      ? ['error', 'warn']
+      : ['log', 'error', 'warn', 'debug', 'verbose'];
+
+  app = await NestFactory.create(AppModule, {
+    logger: logLevels,
+  });
+
+  // Set listening port
   await app.listen(configService.get<number>('PORT'));
 }
 bootstrap();
