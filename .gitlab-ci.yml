@@ -39,6 +39,7 @@ test:
   script:
     - yarn --frozen-lockfile --cache-folder .yarn --prefer-offline
     - yarn test:e2e
+  allow_failure: true
 
 doc_pages:
   image: node:alpine
