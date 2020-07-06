@@ -18,28 +18,27 @@ build:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE:latest
 
-test:
-  image: node:alpine
-  stage: test
-  services:
-    - postgres:alpine
-    - redis:alpine
-  variables:
-    POSTGRES_ENABLED: "true"
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: password
-    POSTGRES_DB: v2land
-    DB_HOST: postgres
-    DB_USERNAME: postgres
-    DB_PASSWORD: password
-    DB_DATABASE: v2land
-    DB_SYNC: "true"
-    REDIS_HOST: redis
-    REDIS_PORT: 6379
-  script:
-    - yarn --frozen-lockfile --cache-folder .yarn --prefer-offline
-    - yarn test:e2e
-  allow_failure: true
+# test:
+#   image: node:alpine
+#   stage: test
+#   services:
+#     - postgres:alpine
+#     - redis:alpine
+#   variables:
+#     POSTGRES_ENABLED: "true"
+#     POSTGRES_USER: postgres
+#     POSTGRES_PASSWORD: password
+#     POSTGRES_DB: v2land
+#     DB_HOST: postgres
+#     DB_USERNAME: postgres
+#     DB_PASSWORD: password
+#     DB_DATABASE: v2land
+#     DB_SYNC: "true"
+#     REDIS_HOST: redis
+#     REDIS_PORT: 6379
+#   script:
+#     - yarn --frozen-lockfile --cache-folder .yarn --prefer-offline
+#     - yarn test:e2e
 
 doc_pages:
   image: node:alpine
