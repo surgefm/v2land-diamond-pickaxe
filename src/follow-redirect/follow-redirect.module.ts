@@ -1,6 +1,7 @@
 import { BullModule } from '@nestjs/bull';
 import { HttpModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SearchModule } from 'src/search/search.module';
 import { ArticleModule } from '../article/article.module';
 import { FollowRedirectProcessor } from './follow-redirect.processor';
 import { FollowRedirectService } from './follow-redirect.service';
@@ -18,7 +19,7 @@ export const followRedirectQueue = BullModule.registerQueueAsync({
 });
 
 @Module({
-  imports: [HttpModule, ArticleModule, followRedirectQueue],
+  imports: [HttpModule, ArticleModule, followRedirectQueue, SearchModule],
   providers: [FollowRedirectService, FollowRedirectProcessor],
   exports: [FollowRedirectService, followRedirectQueue],
 })

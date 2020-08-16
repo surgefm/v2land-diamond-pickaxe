@@ -1,6 +1,7 @@
 import { OnQueueCompleted, Process, Processor } from '@nestjs/bull';
 import { HttpService, Logger } from '@nestjs/common';
 import { Job } from 'bull';
+import { SearchService } from 'src/search/search.service';
 import { ArticleService } from '../article/article.service';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
 @Processor('follow-redirect')
@@ -8,7 +9,8 @@ export class FollowRedirectProcessor {
   private readonly logger = new Logger(FollowRedirectProcessor.name);
   constructor(
     private httpService: HttpService,
-    private readonly articleService: ArticleService
+    private readonly articleService: ArticleService,
+    private readonly searchService: SearchService
   ) {}
 
   @Process()
@@ -26,6 +28,7 @@ export class FollowRedirectProcessor {
 
   @OnQueueCompleted()
   async onCompleted(_: number, parsedArticle: CreateArticleDto) {
-    this.articleService.create(parsedArticle);
+    const article = await this.articleService.create(parsedArticle);
+    await this.searchService.index(article);
   }
 }

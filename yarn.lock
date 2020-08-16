@@ -377,6 +377,17 @@
     is-absolute "^1.0.0"
     is-negated-glob "^1.0.0"
 
+"@elastic/elasticsearch@^7.8.0":
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.8.0.tgz#3f9ee54fe8ef79874ebd231db03825fa500a7111"
+  integrity sha512-rUOTNN1At0KoN0Fcjd6+J7efghuURnoMTB/od9EMK6Mcdebi6N3z5ulShTsKRn6OanS9Eq3l/OmheQY1Y+WLcg==
+  dependencies:
+    debug "^4.1.1"
+    decompress-response "^4.2.0"
+    ms "^2.1.1"
+    pump "^3.0.0"
+    secure-json-parse "^2.1.0"
+
 "@hapi/address@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-4.0.1.tgz#267301ddf7bc453718377a6fb3832a2f04a721dd"
@@ -712,6 +723,11 @@
     path-to-regexp "3.2.0"
     tslib "2.0.0"
     uuid "8.1.0"
+
+"@nestjs/elasticsearch@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/elasticsearch/-/elasticsearch-7.1.0.tgz#ba77a11d419b9aa542252a83b6490ef8c458fed4"
+  integrity sha512-3ixmu9MkTh0DS+LKAKcWHLyf/1DPQTXoy+aVClVI14DJQU208oHR3V0e9klApC+GXCYW+BDhNReh4HRyekjTrw==
 
 "@nestjs/platform-express@^7.0.0":
   version "7.2.0"
@@ -3063,6 +3079,13 @@ decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
+
+decompress-response@^4.2.0:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/decompress-response/-/decompress-response-4.2.1.tgz#414023cc7a302da25ce2ec82d0d5238ccafd8986"
+  integrity sha512-jOSne2qbyE+/r8G1VU+G/82LBs2Fs4LAsTiLSHOCOMZQl2OKZ6i8i4IyHemTe+/yIXOtTcRQMzPcgyhoFlqPkw==
+  dependencies:
+    mimic-response "^2.0.0"
 
 deep-equal@^1.0.0:
   version "1.1.1"
@@ -6514,6 +6537,11 @@ mimic-fn@^2.1.0:
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
 
+mimic-response@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-2.1.0.tgz#d13763d35f613d09ec37ebb30bac0469c0ee8f43"
+  integrity sha512-wXqjST+SLt7R009ySCglWBCFpjUygmCIfD790/kVbiGmUgfYGuB14PiTd5DwVxSV4NcYHjzMkoj5LjQZwTQLEA==
+
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
@@ -8278,6 +8306,11 @@ scope-analyzer@^2.0.1:
     es6-symbol "^3.1.1"
     estree-is-function "^1.0.0"
     get-assigned-identifiers "^1.1.0"
+
+secure-json-parse@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/secure-json-parse/-/secure-json-parse-2.1.0.tgz#ae76f5624256b5c497af887090a5d9e156c9fb20"
+  integrity sha512-GckO+MS/wT4UogDyoI/H/S1L0MCcKS1XX/vp48wfmU7Nw4woBmb8mIpu4zPBQjKlRT88/bt9xdoV4111jPpNJA==
 
 semver-compare@^1.0.0:
   version "1.0.0"
