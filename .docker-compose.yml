@@ -48,9 +48,40 @@ services:
       - traefik.http.middlewares.https_redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.https_redirect.redirectscheme.permanent=true
 
+  elasticsearch:
+    image: "bitnami/elasticsearch:7-debian-10"
+    volumes:
+      - "elasticsearch_data:/bitnami:z"
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: "bitnami/kibana:7-debian-10"
+    ports:
+      - "5601:5601"
+    volumes:
+      - "kibana_data:/bitnami:z"
+    depends_on:
+      - elasticsearch
+
+  db:
+    image: postgres:alpine
+    volumes:
+      - db:/var/lib/postgresql/data:z
+    environment:
+      POSTGRES_DB: v2land
+      POSTGRES_USER: v2land
+      POSTGRES_PASSWORD: password
+
   watchtower:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /root/.docker/config.json:/config.json
     command: --interval 30
+
+volumes:
+  elasticsearch_data:
+    driver: local
+  kibana_data:
+    driver: local
