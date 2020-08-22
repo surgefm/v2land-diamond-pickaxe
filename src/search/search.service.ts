@@ -10,12 +10,15 @@ export class SearchService {
 
 	constructor(private readonly elasticsearchService: ElasticsearchService) {}
 
-	async index(article: Article): Promise<Record<string, any>>;
-	async index(site: Site): Promise<Record<string, any>>;
-	async index(doc: Article | Site): Promise<Record<string, any>> {
+	async index(article: Article, indexName: string): Promise<Record<string, any>>;
+	async index(site: Site, indexName: string): Promise<Record<string, any>>;
+	async index(doc: Article | Site, indexName: string): Promise<Record<string, any>> {
+		const body = doc.toJSON();
+		this.logger.debug(doc.toJSON());
+
 		const response = await this.elasticsearchService.index({
-			index: this.clazzNameToIndex(typeof doc),
-			body: doc.toJSON()
+			index: indexName,
+			body
 		});
 		if (response.statusCode && response.statusCode >= 400) {
 			this.logger.warn(`Elasticsearch: ${response.warnings}`);

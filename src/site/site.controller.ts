@@ -16,7 +16,7 @@ export class SiteController {
 	async createSite(@Body() createSiteDto: CreateSiteDto) {
 		this.logger.debug(createSiteDto);
 		const site = await this.siteService.create(createSiteDto);
-		await this.searchService.index(site);
+		await this.searchService.index(site, 'site');
 		return site;
 	}
 }
