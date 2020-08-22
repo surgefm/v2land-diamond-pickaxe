@@ -28,7 +28,8 @@
             ],
             "console": "integratedTerminal",
             "outputCapture": "std",
-            "autoAttachChildProcesses": true
+            "autoAttachChildProcesses": true,
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "name": "NestJS Debug",
@@ -51,7 +52,6 @@
             ],
             "console": "integratedTerminal",
             "outputCapture": "std",
-            
             "outFiles": [
                 "${workspaseFolder}/dist/**/*.js"
             ],
