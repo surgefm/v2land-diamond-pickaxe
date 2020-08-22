@@ -59,7 +59,9 @@ import { SiteModule } from './site/site.module';
 				DB_USERNAME: Joi.string().default('postgres'),
 				DB_PASSWORD: Joi.string().default('password'),
 				DB_SYNC: Joi.bool().default(false),
-				ELASTICSEARCH_NODE: Joi.string().uri().default('http://elasticsearch:9200')
+				ELASTICSEARCH_NODE: Joi.string().uri().default('http://elasticsearch:9200'),
+				ELASTICSEARCH_USERNAME: Joi.string().default(''),
+				ELASTICSEARCH_PASSWORD: Joi.string().default('')
 			})
 		}),
 		FollowRedirectModule,
