@@ -22,10 +22,10 @@ export class CrawlerService implements OnModuleInit {
    * Set a period crawling job accroding to the config.
    */
   public onModuleInit(): void {
-    const seconds = this.configService.get<number>('CRAWLER_INTERVAL');
-    this.logger.warn(`Interval executing at time (${seconds})!`);
+    const ms = this.configService.get<number>('CRAWLER_INTERVAL');
+    this.logger.warn(`Interval executing at time (${ms})!`);
     // Periodically add all recorded sites to the crawler queue
-    const interval = setInterval(this.crawling, seconds);
+    const interval = setInterval(this.crawling, ms);
     this.schedulerRegistry.addInterval('periodic-crawling', interval);
   }
 
