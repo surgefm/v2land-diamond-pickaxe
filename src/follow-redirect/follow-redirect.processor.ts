@@ -27,6 +27,6 @@ export class FollowRedirectProcessor {
 	@OnQueueCompleted()
 	async onCompleted(_: number, parsedArticle: CreateArticleDto) {
 		const article = await this.articleService.create(parsedArticle);
-		await this.searchService.index(article, 'article');
+		await this.searchService.index(article, 'news');
 	}
 }
