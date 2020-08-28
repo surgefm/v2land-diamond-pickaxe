@@ -19,7 +19,7 @@ export class Site extends Model<Site> {
    * URLs to RSS endpoint of the site.
    * Should be unique, but it is not the primary key.
    */
-  @Column(DataType.ARRAY(DataType.STRING))
+  @Column(DataType.ARRAY(DataType.TEXT))
   rssUrls: string[];
 
   @Column
@@ -28,7 +28,7 @@ export class Site extends Model<Site> {
   /**
    * Domain site uses.
    */
-  @Column(DataType.ARRAY(DataType.STRING))
+  @Column(DataType.ARRAY(DataType.TEXT))
   domains?: string[];
 
   /**
