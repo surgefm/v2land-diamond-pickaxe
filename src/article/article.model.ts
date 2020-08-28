@@ -2,6 +2,7 @@ import {
   AllowNull,
   BelongsTo,
   Column,
+  DataType,
   ForeignKey,
   Model,
   Table,
@@ -20,19 +21,19 @@ enum Status {
  */
 @Table({ tableName: 'news' })
 export class Article extends Model<Article> {
-  @Column
+  @Column(DataType.TEXT)
   url: string;
 
   @AllowNull
-  @Column
+  @Column(DataType.TEXT)
   title?: string;
 
   @AllowNull
-  @Column
+  @Column(DataType.TEXT)
   content?: string;
 
   @AllowNull
-  @Column
+  @Column(DataType.TEXT)
   abstract?: string;
 
   @AllowNull
@@ -47,18 +48,18 @@ export class Article extends Model<Article> {
   time?: Date;
 
   @AllowNull
-  @Column
+  @Column(DataType.TEXT)
   html?: string;
 
   @AllowNull
-  @Column
+  @Column(DataType.TEXT)
   screenshot?: string;
 
   @Column({ defaultValue: Status.Pending })
   status: string;
 
   @AllowNull
-  @Column
+  @Column(DataType.TEXT)
   comment?: string;
 
   @AllowNull

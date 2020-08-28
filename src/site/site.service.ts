@@ -6,7 +6,7 @@ import {
   ParseResult,
   ParseResultType,
 } from 'parse-domain';
-import { FindOrCreateOptions, Op, Sequelize, WhereOptions } from 'sequelize';
+import { FindOrCreateOptions, Op, WhereOptions } from 'sequelize';
 import { FindOneSiteDto } from './dto/find-one-site.dto';
 import { FindOrCreateSiteDto } from './dto/find-or-create-site.dto';
 import { Site } from './site.model';
@@ -80,16 +80,10 @@ export class SiteService {
             [Op.eq]: candidateSite.name,
           },
           domains: {
-            [Op.overlap]: Sequelize.cast(
-              candidateSite.domains,
-              'character varying[]'
-            ),
+            [Op.overlap]: candidateSite.domains,
           },
           rssUrls: {
-            [Op.overlap]: Sequelize.cast(
-              candidateSite.rssUrls,
-              'character varying[]'
-            ),
+            [Op.overlap]: candidateSite.rssUrls,
           },
         },
       },
