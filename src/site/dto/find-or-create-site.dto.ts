@@ -1,6 +1,6 @@
 import { IsFQDN, IsOptional, IsUrl } from 'class-validator';
 
-export class CreateSiteDto {
+export class FindOrCreateSiteDto {
   name?: string;
 
   @IsOptional()

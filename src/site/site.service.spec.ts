@@ -1,6 +1,6 @@
 import { getModelToken } from '@nestjs/sequelize';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateSiteDto } from './dto/create-site.dto';
+import { FindOrCreateSiteDto } from './dto/find-or-create-site.dto';
 import { FindOneSiteDto } from './dto/find-one-site.dto';
 import { Site } from './site.model';
 import { SiteService } from './site.service';
@@ -10,7 +10,7 @@ const testCreateSiteDto = {
   url: 'https://rsshub.app/apple/exchange_repair/zh-cn',
   shouldParseFulltext: true,
   dynamicLoading: false,
-} as CreateSiteDto;
+} as FindOrCreateSiteDto;
 const testSiteId = 123;
 const testSite1 = { id: testSiteId, ...testCreateSiteDto } as Site;
 const testFindOneSiteDto: FindOneSiteDto = testCreateSiteDto;

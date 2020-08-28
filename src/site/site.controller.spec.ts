@@ -1,6 +1,6 @@
 import { getModelToken } from '@nestjs/sequelize';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateSiteDto } from './dto/create-site.dto';
+import { FindOrCreateSiteDto } from './dto/find-or-create-site.dto';
 import { FindOneSiteDto } from './dto/find-one-site.dto';
 import { SiteController } from './site.controller';
 import { Site } from './site.model';
@@ -11,7 +11,7 @@ const testSiteRSSUrl = 'https://rsshub.app/apple/exchange_repair/zh-cn';
 const testSiteShouldExtractFulltext = true;
 const testSiteDynamicLoading = false;
 const testSiteId = 123;
-const testCreateSiteDto = new CreateSiteDto();
+const testCreateSiteDto = new FindOrCreateSiteDto();
 testCreateSiteDto.name = testSiteName;
 testCreateSiteDto.rssUrls = [testSiteRSSUrl];
 testCreateSiteDto.dynamicLoading = testSiteDynamicLoading;
@@ -57,7 +57,7 @@ describe('Site Controller', () => {
           useValue: {
             create: jest
               .fn()
-              .mockImplementation((testSite: CreateSiteDto) =>
+              .mockImplementation((testSite: FindOrCreateSiteDto) =>
                 Promise.resolve({ id: 123, ...testSite })
               ),
           },

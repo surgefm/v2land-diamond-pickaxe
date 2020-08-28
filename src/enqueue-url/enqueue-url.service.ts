@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { fromUrl, parseDomain, ParseResultType } from 'parse-domain';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
 import { DynamicPageArchivingService } from '../dynamic-page-archiving/dynamic-page-archiving.service';
 import { FulltextExtractionService } from '../fulltext-extraction/fulltext-extraction.service';
+import { FindOrCreateSiteDto } from '../site/dto/find-or-create-site.dto';
 import { SiteService } from '../site/site.service';
 
 @Injectable()
@@ -24,21 +24,9 @@ export class EnqueueUrlService {
     this.logger.debug(`Article enqueued: ${url}`);
 
     // Identify which site it belongs to
-    let site = await this.siteService.getSiteOf(url);
-
-    // If no corresponding site, create one
-    if (site === undefined || site === null) {
-      let parseResult = parseDomain(fromUrl(url));
-      if (parseResult.type === ParseResultType.Listed) {
-        // domain: google, topLevelDomains: ["co", "uk"]
-        const { domain, topLevelDomains } = parseResult;
-        site = await this.siteService.create({
-          domains: [`${domain}.${topLevelDomains.join('.')}`],
-        });
-      } else {
-        this.logger.error(`URL ${url} is malformed. Failed to create a Site`);
-      }
-    }
+    const findSiteDto = new FindOrCreateSiteDto();
+    findSiteDto.rssUrls = [url];
+    const [site] = await this.siteService.findOrCreate(findSiteDto);
     candidateArticle.site = site;
 
     if (candidateArticle.site.dynamicLoading) {

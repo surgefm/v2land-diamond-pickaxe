@@ -6,9 +6,9 @@ import {
   ParseResult,
   ParseResultType,
 } from 'parse-domain';
-import { Op, UniqueConstraintError, WhereOptions } from 'sequelize';
-import { CreateSiteDto } from './dto/create-site.dto';
+import { FindOrCreateOptions, Op, Sequelize, WhereOptions } from 'sequelize';
 import { FindOneSiteDto } from './dto/find-one-site.dto';
+import { FindOrCreateSiteDto } from './dto/find-or-create-site.dto';
 import { Site } from './site.model';
 
 /**
@@ -23,9 +23,14 @@ export class SiteService {
    * Will automatically fill-in the first domain or the Second Level Domain of subscription url as site name if no name is given
    * @param candidateSite known info of the site
    */
-  async create(candidateSite: CreateSiteDto): Promise<Site> {
+  async findOrCreate(
+    candidateSite: FindOrCreateSiteDto
+  ): Promise<[Site, Boolean]> {
     let parseResult: ParseResult;
-    // Set Second Level Domain of Site.domains[0] as default site name
+    /**
+     * Fill-in compulsary fields. Fallback order: name -> domains -> rssUrls
+     */
+    // Has domains, set the Second Level Domain of Site.domains[0] as default site name
     if (
       candidateSite.domains !== null &&
       candidateSite.domains !== undefined &&
@@ -37,15 +42,17 @@ export class SiteService {
         candidateSite.name =
           candidateSite.name || `${domain}.${topLevelDomains}`;
       } else {
-        // TODO: error handling
+        this.logger.error(
+          `Invalid candidate site's domain ${candidateSite.domains[0]}`
+        );
       }
     } else {
-      this.logger.debug('!!!!!!!!!!!No domain is given!!!!!!!!!!');
-
       // If the candidateSite has no known domain
+      this.logger.debug('No domain is given');
+
       // Alternatively set Second Level Domain of Site.url as default site name
       if (candidateSite.rssUrls.length < 1) {
-        this.logger.error('!!!!!!!!!!!No rssUrls are given!!!!!!!!!!');
+        this.logger.error('No rssUrls are given');
         return null;
       }
       parseResult = parseDomain(fromUrl(candidateSite.rssUrls[0]));
@@ -57,21 +64,38 @@ export class SiteService {
         // Fill-in the domain of the subscription url as a known domain
         candidateSite.domains = [`${domain}.${topLevelDomains}`];
       } else {
-        // TODO: error handling
+        this.logger.error(
+          `Invalid candidate site rssurl's domain ${candidateSite.domains[0]}`
+        );
       }
     }
 
-    const newSite = new Site(candidateSite);
-    try {
-      newSite.save();
-    } catch (e) {
-      if (e instanceof UniqueConstraintError) {
-        this.logger.warn(`Site ${newSite.name} is already present`);
-      } else {
-        this.logger.error(e.message);
-      }
-    }
-    return newSite;
+    /**
+     * Find query or create value if no site with overlapped domains
+     */
+    const options: FindOrCreateOptions = {
+      where: {
+        [Op.or]: {
+          name: {
+            [Op.eq]: candidateSite.name,
+          },
+          domains: {
+            [Op.overlap]: Sequelize.cast(
+              candidateSite.domains,
+              'character varying[]'
+            ),
+          },
+          rssUrls: {
+            [Op.overlap]: Sequelize.cast(
+              candidateSite.rssUrls,
+              'character varying[]'
+            ),
+          },
+        },
+      },
+      defaults: candidateSite,
+    };
+    return await this.siteModel.findCreateFind(options);
   }
 
   /**
@@ -132,7 +156,11 @@ export class SiteService {
       // TODO: error handling
     }
     return await this.siteModel.findOne({
-      where: { domains: { [Op.contains]: [targetDomain] } },
+      where: {
+        domains: {
+          [Op.contains]: [targetDomain],
+        },
+      },
     });
   }
 }
