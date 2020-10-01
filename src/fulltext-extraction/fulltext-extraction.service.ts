@@ -1,7 +1,5 @@
-import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import * as Mercury from '@postlight/mercury-parser';
-import { Queue } from 'bull';
 import * as entities from 'entities';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
 
@@ -9,13 +7,7 @@ import { CreateArticleDto } from '../article/dto/create-article.dto';
 export class FulltextExtractionService {
   private readonly logger = new Logger(FulltextExtractionService.name);
 
-  constructor(
-    @InjectQueue('fulltext-extraction') private fulltextExtractionQueue: Queue
-  ) {}
-  async extractAndSave(candidateArticle: CreateArticleDto) {
-    // Parse Article & save
-    await this.fulltextExtractionQueue.add(candidateArticle);
-  }
+  constructor() {}
 
   async parsePage(
     candidateArticle: CreateArticleDto

@@ -1,6 +1,4 @@
-import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
-import { Queue } from 'bull';
 import puppeteer from 'puppeteer';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
 
@@ -10,10 +8,7 @@ import { CreateArticleDto } from '../article/dto/create-article.dto';
 @Injectable()
 export class DynamicPageArchivingService {
   private readonly logger = new Logger(DynamicPageArchivingService.name);
-  constructor(
-    @InjectQueue('dynamic-page-archiving')
-    private dynamicPageArchivingQueue: Queue
-  ) {}
+  constructor() {}
 
   /**
    * Loads and snapshots a dynamic loading page.

@@ -28,6 +28,5 @@ export const crawlerQueue = BullModule.registerQueueAsync({
     ArticleModule,
     crawlerQueue,
   ],
-  exports: [crawlerQueue],
 })
 export class CrawlerModule {}
