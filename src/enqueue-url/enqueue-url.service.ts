@@ -1,7 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ArticleService } from '../article/article.service';
 import { CreateArticleDto } from '../article/dto/create-article.dto';
 import { DynamicPageArchivingService } from '../dynamic-page-archiving/dynamic-page-archiving.service';
+import { FollowRedirectService } from '../follow-redirect/follow-redirect.service';
 import { FulltextExtractionService } from '../fulltext-extraction/fulltext-extraction.service';
+import { SearchService } from '../search/search.service';
 import { FindOrCreateSiteDto } from '../site/dto/find-or-create-site.dto';
 import { SiteService } from '../site/site.service';
 
@@ -11,7 +14,10 @@ export class EnqueueUrlService {
   constructor(
     private fulltextExtractionService: FulltextExtractionService,
     private dynamicPageArchivingService: DynamicPageArchivingService,
-    private siteService: SiteService
+    private followRedirectService: FollowRedirectService,
+    private siteService: SiteService,
+    private articleService: ArticleService,
+    private searchService: SearchService
   ) {}
 
   async enqueue(
@@ -29,12 +35,17 @@ export class EnqueueUrlService {
     const [site] = await this.siteService.findOrCreate(findSiteDto);
     candidateArticle.site = site;
 
-    if (candidateArticle.site.dynamicLoading) {
-      // The source doesn't provide fulltext: archive -> parse -> save
-      await this.dynamicPageArchivingService.archiveParseSave(candidateArticle);
-    } else {
-      // The source provides fulltext: parse -> save
-      await this.fulltextExtractionService.extractAndSave(candidateArticle);
-    }
+    candidateArticle = await this.dynamicPageArchivingService.archiveDynamicPage(
+      candidateArticle
+    );
+    candidateArticle = await this.fulltextExtractionService.parsePage(
+      candidateArticle
+    );
+    candidateArticle = await this.followRedirectService.followRedirect(
+      candidateArticle
+    );
+
+    const article = await this.articleService.create(candidateArticle);
+    await this.searchService.index(article, 'news');
   }
 }

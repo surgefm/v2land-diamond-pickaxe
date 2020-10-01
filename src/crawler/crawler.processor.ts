@@ -68,24 +68,11 @@ export class CrawlerProcessor {
   async crawlOneFeed(site: Site, feed: Feed) {
     const articles = await this.parseArticleCandidateList(site, feed);
 
-    // Enqueue for fulltext extraction
-    if (site.shouldParseFulltext) {
-      this.logger.debug(`Should parse: ${site.name} ${articles.length}`);
-      // Extract fulltext
-      const promises = articles.map(async article => {
-        this.logger.debug(`Saving: ${article.title}`);
-        await this.enqueueUrlService.enqueue(article.url, article);
-      });
-      await Promise.all(promises);
-    } else {
-      this.logger.debug(`Don't parse: ${site.name}`);
-      // Directly save into database
-      const promises = articles.map(async article => {
-        this.logger.debug(`Saving: ${article.title}`);
-        await this.articleService.create(article);
-      });
-      await Promise.all(promises);
-    }
+    const promises = articles.map(async article => {
+      this.logger.debug(`Saving: ${article.title}`);
+      await this.enqueueUrlService.enqueue(article.url, article);
+    });
+    await Promise.all(promises);
   }
 
   @Process()
