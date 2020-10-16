@@ -12,7 +12,7 @@ import { EnqueueUrlProcessor } from './enqueue-url.processor';
 import { EnqueueUrlService } from './enqueue-url.service';
 
 export const enqueueUrlQueue = BullModule.registerQueueAsync({
-  name: 'crawler',
+  name: 'enqueue-url',
   inject: [ConfigService],
   imports: [ConfigModule],
   useFactory: (configService: ConfigService) => ({
