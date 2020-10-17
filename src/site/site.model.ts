@@ -13,7 +13,7 @@ import { Article } from '../article/article.model';
  * This is the news source site entity used across langchao.org
  * Each Site bounds to a specific rule describing the necessary pre-processing before a new article of that site is added
  */
-@Table({ modelName: 'site', freezeTableName: true })
+@Table
 export class Site extends Model<Site> {
   /**
    * URLs to RSS endpoint of the site.
