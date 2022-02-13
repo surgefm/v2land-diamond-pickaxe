@@ -39,7 +39,7 @@
     "class-validator": "^0.12.2",
     "cron": "^1.8.2",
     "entities": "^2.0.2",
-    "follow-redirects": "^1.11.0",
+    "follow-redirects": "^1.14.8",
     "html-to-text": "^5.1.1",
     "js-yaml": "^3.14.0",
     "mysql": "^2.18.1",
