@@ -18,7 +18,7 @@ export class ArticleService {
    * @param article An object that stores all info to create an article
    */
   async create(createArticleDto: CreateArticleDto): Promise<Article> {
-    let article = new Article(createArticleDto);
+    let article = await this.articleModel.create(createArticleDto);
     try {
       article.save();
     } catch (e) {

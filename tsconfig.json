@@ -13,7 +13,8 @@
     "incremental": true,
     "lib": [
       "es6",
-      "es7"
+      "es7",
+      "DOM"
     ],
     "allowSyntheticDefaultImports": true, // Must enable in cooperate with module: es2020
     "esModuleInterop": true,

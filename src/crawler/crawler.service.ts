@@ -56,14 +56,14 @@ export class CrawlerService implements OnModuleInit {
     }
   }
 
-  async getFeeds(site: Site): Promise<Feed[]> {
+  async getFeeds(site: Site): Promise<Feed<any>[]> {
     const rssParser = new Parser();
     this.logger.debug(`Getting feeds`);
 
-    let feeds: Feed[] = [];
+    let feeds: Feed<any>[] = [];
 
     for (const url of site.rssUrls) {
-      const feed: Feed = await rssParser.parseURL(url);
+      const feed = await rssParser.parseURL(url);
       this.logger.debug(
         `feed: ${feed.title}, article_count: ${feed.items.length}`
       );
@@ -80,7 +80,7 @@ export class CrawlerService implements OnModuleInit {
    */
   async parseArticleCandidateList(
     site: Site,
-    feed: Feed
+    feed: Feed<any>
   ): Promise<CreateArticleDto[]> {
     //
     let articles: CreateArticleDto[] = [];
@@ -93,7 +93,7 @@ export class CrawlerService implements OnModuleInit {
       article.time = new Date(articleInFeed.pubDate);
       article.author = articleInFeed.creator;
 
-      if (feed.shouldParseFulltext) {
+      if (site.shouldParseFulltext) {
         article.abstract = articleInFeed.content;
       } else {
         article.content = articleInFeed.content;
@@ -105,7 +105,7 @@ export class CrawlerService implements OnModuleInit {
     return articles;
   }
 
-  async crawlOneFeed(site: Site, feed: Feed) {
+  async crawlOneFeed(site: Site, feed: Feed<any>) {
     const articles = await this.parseArticleCandidateList(site, feed);
 
     const promises = articles.map(async article => {
