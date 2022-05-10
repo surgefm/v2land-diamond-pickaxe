@@ -32,6 +32,7 @@ import { SiteModule } from './site/site.module';
         synchronize: configService.get<boolean>('DB_SYNC'),
         keepConnectionAlive: true,
         autoLoadModels: true,
+        ssl: true
       }),
     }),
     enqueueUrlQueue,
