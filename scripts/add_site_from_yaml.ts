@@ -10,7 +10,7 @@ const url = instance + endpoint;
 
 try {
 	const site_yaml_file = process.argv[2];
-	const sites = yaml.safeLoad(fs.readFileSync(site_yaml_file, 'utf8')) as FindOrCreateSiteDto[];
+	const sites = yaml.load(fs.readFileSync(site_yaml_file, 'utf8')) as FindOrCreateSiteDto[];
 
 	sites.forEach(async (site) => {
 		console.log(site);

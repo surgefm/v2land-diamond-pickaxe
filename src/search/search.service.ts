@@ -1,3 +1,4 @@
+import {Result} from '@elastic/elasticsearch/lib/api/types';
 import { Injectable, Logger } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { AppService } from '../app.service';
@@ -13,12 +14,12 @@ export class SearchService {
   async index(
     article: Article,
     indexName: string
-  ): Promise<Record<string, any>>;
-  async index(site: Site, indexName: string): Promise<Record<string, any>>;
+  ): Promise<void>;
+  async index(site: Site, indexName: string): Promise<void>;
   async index(
     doc: Article | Site,
     indexName: string
-  ): Promise<Record<string, any>> {
+  ): Promise<void> {
     const body = doc.toJSON();
     this.logger.debug(doc.toJSON());
 
@@ -26,10 +27,9 @@ export class SearchService {
       index: indexName,
       body,
     });
-    if (response.statusCode && response.statusCode >= 400) {
-      this.logger.warn(`Elasticsearch: ${response.warnings}`);
+    if (!['created', "updated"].includes(response.result) ) {
+      this.logger.warn(`Elasticsearch: ${response.result}`);
     }
-    return response.body;
   }
 
   clazzNameToIndex(name: string): string {

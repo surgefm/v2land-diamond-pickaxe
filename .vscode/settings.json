@@ -9,5 +9,6 @@
     "typescript.format.enable": false,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
     "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
-    "typescript.preferences.importModuleSpecifier": "relative"
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "prettier.useTabs": true
 }
