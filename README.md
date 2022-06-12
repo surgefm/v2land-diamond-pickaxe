@@ -35,6 +35,10 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
+## Configuration
+
+See https://github.com/surgefm/v2land-diamond-pickaxe/blob/master/src/app.module.ts#L46-L68
+
 ## License
 
   v2land-diamond-hoe is [MIT licensed](LICENSE).
