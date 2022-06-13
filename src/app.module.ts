@@ -36,6 +36,7 @@ import { SiteModule } from './site/site.module';
 				ssl: true,
 				dialectOptions: {
 					ssl: {
+						// don't validate whether the certificate is self-signed
 						rejectUnauthorized: false,
 					},
 				},
