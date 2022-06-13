@@ -12,29 +12,31 @@ import { EnqueueUrlProcessor } from './enqueue-url.processor';
 import { EnqueueUrlService } from './enqueue-url.service';
 
 export const enqueueUrlQueue = BullModule.registerQueueAsync({
-  name: 'enqueue-url',
-  inject: [ConfigService],
-  imports: [ConfigModule],
-  useFactory: (configService: ConfigService) => ({
-    redis: {
-      host: configService.get<string>('REDIS_HOST'),
-      port: configService.get<number>('REDIS_PORT'),
-    },
-  }),
+	name: 'enqueue-url',
+	inject: [ConfigService],
+	imports: [ConfigModule],
+	useFactory: (configService: ConfigService) => ({
+		redis: {
+			host: configService.get<string>('REDIS_HOST'),
+			port: configService.get<number>('REDIS_PORT'),
+			username: configService.get<string>('REDIS_USERNAME'),
+			password: configService.get<string>('REDIS_PASSWORD'),
+		},
+	}),
 });
 
 @Module({
-  controllers: [EnqueueUrlController],
-  providers: [EnqueueUrlService, EnqueueUrlProcessor],
-  imports: [
-    FulltextExtractionModule,
-    SiteModule,
-    DynamicPageArchivingModule,
-    FollowRedirectModule,
-    ArticleModule,
-    SearchModule,
-    enqueueUrlQueue,
-  ],
-  exports: [EnqueueUrlService],
+	controllers: [EnqueueUrlController],
+	providers: [EnqueueUrlService, EnqueueUrlProcessor],
+	imports: [
+		FulltextExtractionModule,
+		SiteModule,
+		DynamicPageArchivingModule,
+		FollowRedirectModule,
+		ArticleModule,
+		SearchModule,
+		enqueueUrlQueue,
+	],
+	exports: [EnqueueUrlService],
 })
 export class EnqueueUrlModule {}
