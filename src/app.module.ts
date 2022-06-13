@@ -75,6 +75,8 @@ import { SiteModule } from './site/site.module';
 					.default('http://elasticsearch:9200'),
 				ELASTICSEARCH_USERNAME: Joi.string().default(''),
 				ELASTICSEARCH_PASSWORD: Joi.string().default(''),
+				ALGOLIA_APPLICATION_ID: Joi.string(),
+				ALGOLIA_API_KEY: Joi.string(),
 			}),
 		}),
 		FollowRedirectModule,
