@@ -14,9 +14,9 @@ import {
 } from './enqueue-url/enqueue-url.module';
 import { FollowRedirectModule } from './follow-redirect/follow-redirect.module';
 import { FulltextExtractionModule } from './fulltext-extraction/fulltext-extraction.module';
+import { HealthModule } from './health/health.module';
 import { SearchModule } from './search/search.module';
 import { SiteModule } from './site/site.module';
-import { HealthModule } from './health/health.module';
 @Module({
 	imports: [
 		SequelizeModule.forRootAsync({
@@ -57,7 +57,7 @@ import { HealthModule } from './health/health.module';
 				REDIS_PORT: Joi.number().default(6379),
 				REDIS_HOST: Joi.string().default('127.0.0.1'),
 				DB_PORT: Joi.number().default(5432),
-				DB_HOST: Joi.string().default("127.0.0.1"),
+				DB_HOST: Joi.string().default('127.0.0.1'),
 				DB_DATABASE: Joi.string().default('v2land'),
 				DB_USERNAME: Joi.string().default('postgres'),
 				DB_PASSWORD: Joi.string().default('password'),
@@ -67,6 +67,8 @@ import { HealthModule } from './health/health.module';
 					.default('http://elasticsearch:9200'),
 				ELASTICSEARCH_USERNAME: Joi.string().default(''),
 				ELASTICSEARCH_PASSWORD: Joi.string().default(''),
+				ALGOLIA_APPLICATION_ID: Joi.string(),
+				ALGOLIA_API_KEY: Joi.string(),
 			}),
 		}),
 		FollowRedirectModule,
