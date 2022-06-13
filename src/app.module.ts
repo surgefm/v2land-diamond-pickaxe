@@ -34,6 +34,12 @@ import { SiteModule } from './site/site.module';
 				keepConnectionAlive: true,
 				autoLoadModels: true,
 				ssl: true,
+				dialectOptions: {
+					ssl: {
+						// don't validate whether the certificate is self-signed
+						rejectUnauthorized: false,
+					},
+				},
 			}),
 		}),
 		enqueueUrlQueue,
