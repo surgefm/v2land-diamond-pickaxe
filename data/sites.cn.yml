@@ -1,0 +1,73 @@
+- name: 新京报
+  rssUrls:
+    - https://rsshub.app/bjnews/realtime
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - bjnews.com.cn
+- name: 财新网
+  rssUrls:
+    - https://rsshub.app/caixin/article
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - caixin.com
+- name: 中国新闻网
+  rssUrls:
+    - https://rsshub.app/chinanews
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - chinanews.com
+- name: 环球网
+  rssUrls:
+    - https://rsshub.app/huanqiu/news/china
+    - https://rsshub.app/huanqiu/news/world
+    - https://rsshub.app/huanqiu/news/mil
+    - https://rsshub.app/huanqiu/news/taiwan
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - huanqiu.com
+- name: 南方周末
+  rssUrls:
+    - https://rsshub.app/infzm/2
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - infzm.com
+- name: 网易新闻
+  rssUrls:
+    - https://rsshub.app/netease/today
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - news.163.com
+- name: 人民网
+  rssUrls:
+    - https://rsshub.app/people
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - people.com.cn
+- name: 端传媒
+  rssUrls:
+    - https://rsshub.app/initium/latest/zh-hans
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - theinitium.com
+- name: 澎湃新闻
+  rssUrls:
+    - https://rsshub.app/thepaper/featured
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - thepaper.cn
+- name: 新华网
+  rssUrls:
+    - https://rsshub.app/news/whxw
+  shouldParseFulltext: false
+  dynamicLoading: false
+  domains:
+    - news.cn
